@@ -109,6 +109,7 @@
     <Compile Include="Model\AccountModel.cs" />
     <Compile Include="Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="App_Data\Membership_Dev.sdf" />
     <Content Include="Views\Home\_HomeLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
