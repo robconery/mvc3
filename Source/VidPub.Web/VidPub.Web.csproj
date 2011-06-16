@@ -105,7 +105,6 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Infrastructure\Massive.cs" />
-    <Compile Include="Infrastructure\RouteHelper.cs" />
     <Compile Include="Model\AccountModel.cs" />
     <Compile Include="Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
