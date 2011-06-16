@@ -1,0 +1,23 @@
+﻿@{
+    Page.Title = "My Home Page: VidPub";
+    Layout = "~/Views/Home/_HomeLayout.cshtml";
+
+}
+
+<div id = 'splash'>
+    <div class = "container">
+        <div class = "column span-24">
+            <img src = "/public/images/lead.png" />
+       </div>
+    </div>
+</div>
+<div class="container"> 
+    
+</div>
+@section instructions{
+
+    <h2>Here's What You Can Do...</h2>
+    <p>
+    @Page.Router.root_url("poop")
+    </p>
+}

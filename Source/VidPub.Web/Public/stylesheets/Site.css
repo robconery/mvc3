@@ -1,0 +1,19 @@
+﻿#logo
+{
+    background-color:#2d2d2d;
+    height:65px;
+    padding-left:52px;
+}
+
+#logo img
+{
+    padding-top:12px
+}
+
+#splash
+{
+    margin-bottom:32px;
+    background-color:#4d4d4d;
+    border-top:#ccc;
+    height:320px;
+}

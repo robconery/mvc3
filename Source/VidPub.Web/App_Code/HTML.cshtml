@@ -1,0 +1,20 @@
+﻿@helper CSS(string cssFile, string media= "screen"){
+    <link rel="stylesheet" href="/public/stylesheets/@cssFile" type="text/css" media="@media" /> 
+}
+@helper Image(string imageFile) {
+    <img src = "/public/images/@imageFile" />
+}
+@helper ImageLink(string link, string imageFile) {
+    <a href="@link">
+        @HTML.Image(imageFile)
+    </a>
+}
+@helper jQuery(bool useGoogle = true){
+    if(useGoogle){
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js" type="text/javascript"></script>
+    }else{
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.5.1.js" type="text/javascript"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.js" type="text/javascript"></script>
+    }
+}

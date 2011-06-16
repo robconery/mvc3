@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@Page.Title</title>
+    <script type="text/javascript" src="http://use.typekit.com/yxo3unq.js"></script>
+    @HTML.jQuery(false)
+    @HTML.CSS("screen.css")
+    @HTML.CSS("print.css","print")
+    @HTML.CSS("site.css")
+    <!--[if lt IE 8]><link rel="stylesheet" href="/public/stylesheets/ie.css" type="text/css" media="screen, projection"><![endif]--> 
+  </head> 
+  <body> 
+    <div id = 'logo'>
+        @HTML.ImageLink(URL.SiteRoot(),"logo.png")
+    </div>
+    
+    @RenderBody()
+
+    <hr>
+    <div class = "container">
+        <p> 
+        &copy;@DateTime.Now.Year VidPub, Inc. 
+        </p>     
+    </div>
+
+  </body> 
+  <script type="text/javascript">        try { Typekit.load(); } catch (e) { }</script>
+</html> 
