@@ -1,21 +1,43 @@
 ﻿@{
     Page.Title = "My Home Page: VidPub";
-    Layout = "~/Views/Home/_HomeLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
 <div id = 'splash'>
     <div class = "container">
         <div class = "column span-24">
-            <img src = "/public/images/lead.png" />
+            @Assets.Image("lead.png")
        </div>
     </div>
 </div>
 <div class="container"> 
-    
+    <div class="column span-24">
+        <h1>Welcome to VidPub</h1>
+    </div>
+    <div class="column span-24">
+
+        <p class="emphasis">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquet sem lacus, a malesuada lacus. Suspendisse dapibus hendrerit imperdiet. Integer dignissim tincidunt tincidunt
+        </p>
+    </div>
+    <hr />
+    <div class="column span-11 colborder">
+        <h2>Lorem Ipsum</h2>
+         <div style="float:left;padding:18px">
+            @Assets.Image("agenda.png")
+        </div>       
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquet sem lacus, a malesuada lacus. Suspendisse dapibus hendrerit imperdiet. Integer dignissim tincidunt tincidunt. Ut accumsan facilisis felis, in dignissim ante viverra et. Donec vehicula, nunc nec semper mattis, metus purus pulvinar neque, quis tincidunt eros urna nec tortor. Nullam quis metus metus. In quam erat, sagittis ut tristique vel, facilisis ut justo. Aliquam erat volutpat. Aenean accumsan orci eu eros dignissim pulvinar. Nam rhoncus mattis leo vitae iaculis. Nam magna dolor, porttitor quis faucibus a, pellentesque ut justo.
+        </p>
+    </div>
+    <div class="column span-11 last">
+        <h2>Lorem Ipsum</h2>
+        <div style="float:left;padding:18px">
+            @Assets.Image("camera.png")
+        </div>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean aliquet sem lacus, a malesuada lacus. Suspendisse dapibus hendrerit imperdiet. Integer dignissim tincidunt tincidunt. Ut accumsan facilisis felis, in dignissim ante viverra et. Donec vehicula, nunc nec semper mattis, metus purus pulvinar neque, quis tincidunt eros urna nec tortor. Nullam quis metus metus. In quam erat, sagittis ut tristique vel, facilisis ut justo. Aliquam erat volutpat. Aenean accumsan orci eu eros dignissim pulvinar. Nam rhoncus mattis leo vitae iaculis. Nam magna dolor, porttitor quis faucibus a, pellentesque ut justo.
+        </p>
+    </div>
 </div>
-@section instructions{
-
-    <h2>Here's What You Can Do...</h2>
-
-}

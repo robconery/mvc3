@@ -40,9 +40,6 @@
     <Reference Include="Elmah.Contrib.Mvc">
       <HintPath>..\packages\Elmah.Contrib.Mvc.1.0\lib\net40\Elmah.Contrib.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Net">
-      <HintPath>..\packages\Glimpse.0.81\lib\net40\Glimpse.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
@@ -88,26 +85,41 @@
     <Compile Include="App_Start\NinjectMVC3.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\CruddyController.cs" />
     <Compile Include="Infrastructure\FormsAuthTokenStore.cs" />
     <Compile Include="Infrastructure\Logging\ILogger.cs" />
     <Compile Include="Infrastructure\Logging\NLogger.cs" />
-    <Content Include="App_Code\HTML.cshtml" />
+    <Content Include="App_Code\Assets.cshtml" />
     <Content Include="App_Code\URL.cshtml" />
     <None Include="App_Data\logs\site.log" />
+    <None Include="CodeTemplates\AddController\Controller.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\Create.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\Edit.tt" />
+    <None Include="CodeTemplates\AddView\CSHTML\List.tt" />
     <None Include="NLog.config">
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Infrastructure\Massive.cs" />
     <Compile Include="Infrastructure\RouteHelper.cs" />
     <Compile Include="Model\AccountModel.cs" />
+    <Compile Include="Model\Episodes.cs" />
+    <Compile Include="Model\Productions.cs" />
     <Compile Include="Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App_Data\Membership_Dev.sdf" />
-    <Content Include="Views\Home\_HomeLayout.cshtml" />
+    <Content Include="App_Data\DBScripts.sql" />
+    <Content Include="Public\images\camera.png" />
+    <Content Include="Public\images\agenda.png" />
+    <Content Include="Views\Productions\Index.cshtml" />
+    <Content Include="Views\Productions\Create.cshtml" />
+    <Content Include="Views\Productions\Edit.cshtml" />
+    <Content Include="Views\Shared\_PublicLayout.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Public\images\jquery_ui\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -171,7 +183,9 @@
     <Content Include="Public\stylesheets\plugins\rtl\screen.css" />
     <Content Include="Public\stylesheets\print.css" />
     <Content Include="Public\stylesheets\screen.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -201,7 +215,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

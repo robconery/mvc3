@@ -15,5 +15,46 @@
     margin-bottom:32px;
     background-color:#4d4d4d;
     border-top:#ccc;
-    height:320px;
+    padding-top:24px;
+    height:360px;
+}
+.emphasis
+{
+    font-size:1.8em;
+    font-family:"helvetica neue", "helvetica";
+}
+
+label
+{
+    display:block;
+    font-style:italic;
+    font-weight:bold;
+}
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid red;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
 }

@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 namespace VidPub.Web.Model {
     public class Users:DynamicModel {
 
-        public Users():base("Membership", "Users", "ID") {}
+        public Users():base("VidPub", "Users", "ID","Email") {}
 
         public dynamic Register(string email, string password, string confirm) {
             dynamic result = new ExpandoObject();

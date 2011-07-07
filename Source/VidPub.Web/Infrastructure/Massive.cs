@@ -7,6 +7,8 @@ using System.Data.Common;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Massive {
     public static class ObjectExtensions {
@@ -87,25 +89,95 @@ namespace Massive {
     /// <summary>
     /// A class that wraps your database table in Dynamic Funtime
     /// </summary>
-    public class DynamicModel {
+    public class DynamicModel : DynamicObject {
         DbProviderFactory _factory;
-        string _connectionString;
-
-        public DynamicModel(string connectionStringName = "", string tableName = "", string primaryKeyField = "") {
+        string ConnectionString;
+        public static DynamicModel Open(string connectionStringName) {
+            dynamic dm = new DynamicModel(connectionStringName);
+            return dm;
+        }
+        public DynamicModel(string connectionStringName, string tableName = "", 
+            string primaryKeyField = "", string descriptorField="") {
             TableName = tableName == "" ? this.GetType().Name : tableName;
             PrimaryKeyField = string.IsNullOrEmpty(primaryKeyField) ? "ID" : primaryKeyField;
-            if (connectionStringName == "")
-                connectionStringName = ConfigurationManager.ConnectionStrings[0].Name;
             var _providerName = "System.Data.SqlClient";
-            if (ConfigurationManager.ConnectionStrings[connectionStringName] != null) {
-                if (!string.IsNullOrEmpty(ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName))
-                    _providerName = ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName;
-            } else {
-                throw new InvalidOperationException("Can't find a connection string with the name '" + connectionStringName + "'");
-            }
             _factory = DbProviderFactories.GetFactory(_providerName);
-            _connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
         }
+
+        /// <summary>
+        /// Creates a new Expando from a Form POST - white listed against the columns in the DB
+        /// </summary>
+        public dynamic CreateFrom(NameValueCollection coll) {
+            dynamic result = new ExpandoObject();
+            var dc = (IDictionary<string, object>)result;
+            var schema = Schema;
+            //loop the collection, setting only what's in the Schema
+            foreach (var item in coll.Keys) {
+                var exists = schema.Any(x => x.COLUMN_NAME.ToLower() == item.ToString().ToLower());
+                if (exists) {
+                    var key = item.ToString();
+                    var val = coll[key];
+                    if (!String.IsNullOrEmpty(val)) {
+                        //what to do here? If it's empty... set it to NULL?
+                        //if it's a string value - let it go through if it's NULLABLE?
+                        //Empty? WTF?
+                        dc.Add(key, val);
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// Gets a default value for the column
+        /// </summary>
+        public dynamic DefaultValue(dynamic column) {
+            dynamic result = null;
+            string def = column.COLUMN_DEFAULT;
+            if (String.IsNullOrEmpty(def)) {
+                result = null;
+            } else if (def == "getdate()" || def == "(getdate())") {
+                result = DateTime.Now.ToShortDateString();
+            } else if (def == "newid()") {
+                result = Guid.NewGuid().ToString();
+            } else {
+                result = def.Replace("(", "").Replace(")", "");
+            }
+            return result;
+        }
+        /// <summary>
+        /// Creates an empty Expando set with defaults from the DB
+        /// </summary>
+        public dynamic Prototype {
+            get {
+                dynamic result = new ExpandoObject();
+                var schema = Schema;
+                foreach (dynamic column in schema) {
+                    var dc = (IDictionary<string, object>)result;
+                    dc.Add(column.COLUMN_NAME, DefaultValue(column));
+                }
+                result._Table = this;
+                return result;
+            }
+        }
+        private string _descriptorField;
+        public string DescriptorField {
+            get {
+                return _descriptorField;
+            }
+        }
+        /// <summary>
+        /// List out all the schema bits for use with ... whatever
+        /// </summary>
+        IEnumerable<dynamic> _schema;
+        public IEnumerable<dynamic> Schema {
+            get {
+                if (_schema == null)
+                    _schema = Query("SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @0", TableName);
+                return _schema;
+            }
+        }
+
         /// <summary>
         /// Enumerates the reader yielding the result - thanks to Jeroen Haegebaert
         /// </summary>
@@ -117,13 +189,27 @@ namespace Massive {
                 }
             }
         }
+        /// <summary>
+        /// Executes the reader using SQL async API - thanks to Damian Edwards
+        /// </summary>
+        public void QueryAsync(string sql, Action<List<dynamic>> callback, params object[] args) {
+            using (var conn = new SqlConnection(ConnectionString)) {
+                var cmd = new SqlCommand(sql, conn);
+                cmd.AddParams(args);
+                conn.Open();
+                var task = Task.Factory.FromAsync<IDataReader>(cmd.BeginExecuteReader, cmd.EndExecuteReader, null);
+                task.ContinueWith(x => callback.Invoke(x.Result.ToExpandoList()));
+                //make sure this is closed off.
+                conn.Close();
+            }
+        }
+
         public virtual IEnumerable<dynamic> Query(string sql, DbConnection connection, params object[] args) {
             using (var rdr = CreateCommand(sql, connection, args).ExecuteReader()) {
                 while (rdr.Read()) {
                     yield return rdr.RecordToExpando(); ;
                 }
             }
-
         }
         /// <summary>
         /// Returns a single result
@@ -151,7 +237,7 @@ namespace Massive {
         /// </summary>
         public virtual DbConnection OpenConnection() {
             var result = _factory.CreateConnection();
-            result.ConnectionString = _connectionString;
+            result.ConnectionString = ConnectionString;
             result.Open();
             return result;
         }
@@ -169,7 +255,6 @@ namespace Massive {
                     commands.Add(CreateInsertCommand(item));
                 }
             }
-
             return commands;
         }
         /// <summary>
@@ -181,8 +266,13 @@ namespace Massive {
             var commands = BuildCommands(things);
             return Execute(commands);
         }
+
         public virtual int Execute(DbCommand command) {
             return Execute(new DbCommand[] { command });
+        }
+
+        public virtual int Execute(string sql, params object[] args) {
+            return Execute(CreateCommand(sql, null, args));
         }
         /// <summary>
         /// Executes a series of DBCommands in a transaction
@@ -319,14 +409,25 @@ namespace Massive {
         /// ordered as specified, limited (TOP) by limit.
         /// </summary>
         public virtual IEnumerable<dynamic> All(string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args) {
+            string sql = BuildSelect(where, orderBy, limit);
+            return Query(string.Format(sql, columns, TableName), args);
+        }
+        private static string BuildSelect(string where, string orderBy, int limit) {
             string sql = limit > 0 ? "SELECT TOP " + limit + " {0} FROM {1} " : "SELECT {0} FROM {1} ";
             if (!string.IsNullOrEmpty(where))
                 sql += where.Trim().StartsWith("where", StringComparison.CurrentCultureIgnoreCase) ? where : "WHERE " + where;
             if (!String.IsNullOrEmpty(orderBy))
                 sql += orderBy.Trim().StartsWith("order by", StringComparison.CurrentCultureIgnoreCase) ? orderBy : " ORDER BY " + orderBy;
-            return Query(string.Format(sql, columns, TableName), args);
+            return sql;
         }
-
+        /// <summary>
+        /// Returns all records complying with the passed-in WHERE clause and arguments, 
+        /// ordered as specified, limited (TOP) by limit.
+        /// </summary>
+        public virtual void AllAsync(Action<List<dynamic>> callback, string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args) {
+            string sql = BuildSelect(where, orderBy, limit);
+            QueryAsync(string.Format(sql, columns, TableName), callback, args);
+        }
         /// <summary>
         /// Returns a dynamic PagedResult. Result properties are Items, TotalPages, and TotalRecords.
         /// </summary>
@@ -355,19 +456,95 @@ namespace Massive {
         /// <summary>
         /// Returns a single row from the database
         /// </summary>
-        public virtual dynamic Single(object key, string columns = "*") {
-            var sql = string.Format("SELECT {0} FROM {1} WHERE {2} = @0", columns, TableName, PrimaryKeyField);
-            var items = Query(sql, key).ToList();
-            return items.FirstOrDefault();
+        public virtual dynamic Single(string where, params object[] args) {
+            var sql = string.Format("SELECT * FROM {0} WHERE {1}", TableName, where);
+            return Query(sql, args).FirstOrDefault();
         }
-
         /// <summary>
         /// Returns a single row from the database
         /// </summary>
-        public virtual dynamic Single(string where, params object[] args) {
-            var sql = string.Format("SELECT * FROM {0} WHERE {1}", TableName, where);
-            var items = Query(sql, args).ToList();
-            return items.FirstOrDefault();
+        public virtual dynamic Single(object key, string columns = "*") {
+            var sql = string.Format("SELECT {0} FROM {1} WHERE {2} = @0", columns, TableName, PrimaryKeyField);
+            return Query(sql, key).FirstOrDefault();
+        }
+        /// <summary>
+        /// This will return a string/object dictionary for dropdowns etc
+        /// </summary>
+        public virtual IDictionary<string, object> KeyValues(string orderBy = "") {
+            if (String.IsNullOrEmpty(DescriptorField))
+                throw new InvalidOperationException("There's no DescriptorField set - do this in your constructor to describe the text value you want to see");
+            var sql = string.Format("SELECT {0},{1} FROM {2} ", PrimaryKeyField, DescriptorField, TableName);
+            if (!String.IsNullOrEmpty(orderBy))
+                sql += "ORDER BY "+ orderBy;
+            return (IDictionary<string,object>)Query(sql);
+        }
+
+        /// <summary>
+        /// A helpful query tool
+        /// </summary>
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result) {
+            //parse the method
+            var constraints = new List<string>();
+            var counter = 0;
+            var info = binder.CallInfo;
+            // accepting named args only... SKEET!
+            if (info.ArgumentNames.Count != args.Length) {
+                throw new InvalidOperationException("Please use named arguments for this type of query - the column name, orderby, columns, etc");
+            }
+
+
+            //first should be "FindBy, Last, Single, First"
+            var op = binder.Name;
+            var columns = " * ";
+            string orderBy = string.Format(" ORDER BY {0}", PrimaryKeyField);
+            string where = "";
+            var whereArgs = new List<object>();
+
+            //loop the named args - see if we have order, columns and constraints
+            if (info.ArgumentNames.Count > 0) {
+
+                for (int i = 0; i < args.Length; i++) {
+                    var name = info.ArgumentNames[i].ToLower();
+                    switch (name) {
+                        case "orderby":
+                            orderBy = " ORDER BY " + args[i];
+                            break;
+                        case "columns":
+                            columns = args[i].ToString();
+                            break;
+                        default:
+                            constraints.Add(string.Format(" {0} = @{1}", name, counter));
+                            whereArgs.Add(args[i]);
+                            counter++;
+                            break;
+                    }
+                }
+            }
+            //Build the WHERE bits
+            if (constraints.Count > 0) {
+                where = " WHERE " + string.Join(" AND ", constraints.ToArray());
+            }
+            //build the SQL
+            string sql = "SELECT TOP 1 " + columns + " FROM " + TableName + where;
+            var justOne = op.StartsWith("First") || op.StartsWith("Last") || op.StartsWith("Get");
+
+            //Be sure to sort by DESC on the PK (PK Sort is the default)
+            if (op.StartsWith("Last")) {
+                orderBy = orderBy + " DESC ";
+            } else {
+                //default to multiple
+                sql = "SELECT " + columns + " FROM " + TableName + where;
+            }
+
+            if (justOne) {
+                //return a single record
+                result = Query(sql + orderBy, whereArgs.ToArray()).FirstOrDefault();
+            } else {
+                //return lots
+                result = Query(sql + orderBy, whereArgs.ToArray());
+            }
+
+            return true;
         }
     }
 }

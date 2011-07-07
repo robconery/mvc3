@@ -12,7 +12,6 @@ namespace VidPub.Tests {
     [TestFixture]
     public class AuthenticationSpecs:TestBase {
         Users _membership;
-
         public AuthenticationSpecs() {
             this.Describes("User Authentication");
             _membership = new Users();

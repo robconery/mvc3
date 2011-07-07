@@ -18,6 +18,7 @@ namespace VidPub.Web.Controllers {
         }
 
         public ActionResult LogOn() {
+            
             return View();
         }
 

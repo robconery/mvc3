@@ -59,8 +59,11 @@
   <ItemGroup>
     <Compile Include="Functionals\AccountControllerTests.cs" />
     <Compile Include="Functionals\FakeTokenStore.cs" />
-    <Compile Include="MembershipSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specs\CustomerSpecs.cs" />
+    <Compile Include="Specs\MembershipSpecs.cs" />
+    <Compile Include="Specs\ProductionSpecs.cs" />
+    <Compile Include="Specs\SubscriptionSpecs.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,47 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#@ output extension=".cshtml" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.ComponentModel.DataAnnotations" #>
+<#@ import namespace="System.Data.Linq.Mapping" #>
+<#@ import namespace="System.Data.Objects.DataClasses" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#
+MvcTextTemplateHost mvcHost = (MvcTextTemplateHost)(Host);
+#>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="column span-18">
+    <h1>@ViewBag.Table.TableName</h1>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Options</td>
+        </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                <a href="@Url.Action("details",new {id = Form.PK(ViewBag.Table,item)})">
+                    @Form.Descriptor(item)
+                </a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit","edit",new {id = Form.PK(ViewBag.Table,item)}) | 
+                <a href="@Url.Action("delete",new { id = Form.PK(ViewBag.Table, item) })" class="delete-link">Delete</a>
+            </td>
+        </tr>
+    }
+    </table>
+    <div class="clear"></div>
+    <hr />
+    <div class="column span-16">
+        @Html.ActionLink("Create New","create")
+    </div>
+</div>

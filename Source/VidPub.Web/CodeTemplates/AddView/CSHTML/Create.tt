@@ -1,0 +1,33 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#@ output extension=".cshtml" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Entity" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.ComponentModel.DataAnnotations" #>
+<#@ import namespace="System.Data.Linq.Mapping" #>
+<#@ import namespace="System.Data.Objects.DataClasses" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#
+MvcTextTemplateHost mvcHost = (MvcTextTemplateHost)(Host);
+#>
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    string tableName = ViewBag.Table.TableName;
+    
+    //Editor specific stuff
+    string keyField = ViewBag.Table.PrimaryKeyField;
+    string keyValue = ViewBag.Table.GetPrimaryKey(Model).ToString();
+}
+<h1>@Html.ActionLink(tableName,"index") >> Edit @Form.Descriptor(Model)</h1>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Form.BuildInputs(Model)
+    <p>
+        <input type="submit" value="go" />
+    </p>
+}

@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Options
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@item.Title</td>
+        <td>
+            @Html.ActionLink("Edit","edit",new{id = item.ID}) | 
+            @Html.ActionLink("Delete","delete",new{id = item.ID})
+         </td>
+    </tr>
+}
+
+</table>

@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
+using System.Web.Mvc;
 
 namespace VidPub.Web.Infrastructure {
+
     public class FormsAuthTokenStore : ITokenHandler {
 
         public void SetClientAccess(string token) {
+            HttpContext.Current.Response.Cookies["auth"].Value = token;
+            HttpContext.Current.Response.Cookies["auth"].Expires = DateTime.Today.AddDays(60);
+            HttpContext.Current.Response.Cookies["auth"].HttpOnly = true;
+
+            //play nicely with FormsAuth
             FormsAuthentication.SetAuthCookie(token, true);
         }
 
@@ -16,9 +23,11 @@ namespace VidPub.Web.Infrastructure {
         }
 
         public string GetToken() {
-            var cookieName = FormsAuthentication.FormsCookieName;
-            var cookieValue = HttpContext.Current.Response.Cookies[cookieName].Value;
-            return cookieValue == null ? "" :   FormsAuthentication.Decrypt(cookieValue).Name;
+            var result = "";
+            if (HttpContext.Current.Request.Cookies["auth"] != null) {
+                result = HttpContext.Current.Request.Cookies["auth"].Value;
+            }
+            return result;
         }
 
     }
