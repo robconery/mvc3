@@ -9,5 +9,13 @@ namespace VidPub.Web.Model {
         public Productions():base("VidPub","Productions","ID") {
 
         }
+        public dynamic FuzzySearch(string query) {
+            return this.Query(@"select ID, Title from productions
+                            where title LIKE('%'+@0+'%')
+                            or description LIKE('%'+@0+'%')
+                            or slug LIKE('%'+@0+'%')
+                            ", query);
+        }
+
     }
 }

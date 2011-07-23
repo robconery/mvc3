@@ -44,7 +44,8 @@ namespace VidPub.Web.Controllers {
 
         public ActionResult LogOff() {
             FormsAuthentication.SignOut();
-
+            Response.Cookies["auth"].Value = null;
+            Response.Cookies["auth"].Expires = DateTime.Today.AddDays(-1);
             return RedirectToAction("Index", "Home");
         }
 

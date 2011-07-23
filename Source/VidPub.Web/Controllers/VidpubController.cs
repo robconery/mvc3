@@ -6,12 +6,13 @@ using System.Web.Mvc;
 using VidPub.Web.Model;
 using VidPub.Web.Infrastructure;
 namespace VidPub.Web.Controllers{
-    public class EpisodesController : CruddyController {
-        public EpisodesController(ITokenHandler tokenStore):base(tokenStore) {
-            _table = new Episodes();
-            ViewBag.Table = _table;
+    public class VidpubController : ApplicationController {
+        public VidpubController(ITokenHandler tokenStore):base(tokenStore) {
         }
 
+        public ActionResult Index() {
+            return View();
+        }
     }
 }
 

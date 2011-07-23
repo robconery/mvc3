@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script type = "text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+@Assets.Script("vidpub-search.js")
+
+<script id="searchTemplate" type="text/html">
+    <h2>${controller}</h2>
+    <table>
+        {{each items}}
+            <tr>
+                <td><a href="${controller}/edit/${ID}">${Title}</a></td>
+            </tr>
+        {{/each}}
+    </table>
+</script>
+
+<h2>Vidpub Admin</h2>
+<form id="searchForm">
+    <label>Find:</label>
+    <input type="text" id="search" />
+    <input type="submit" value="go" />
+</form>
+<div id="productions-search-results" class="search-results"></div>
+<div id="episodes-search-results" class="search-results"></div>
+<div id="customers-search-results" class="search-results"></div>

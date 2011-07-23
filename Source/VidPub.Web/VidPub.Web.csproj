@@ -85,9 +85,11 @@
     <Compile Include="App_Start\NinjectMVC3.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductionsController.cs" />
+    <Compile Include="Controllers\VidpubController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -106,8 +108,10 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Infrastructure\Massive.cs" />
+    <Compile Include="Infrastructure\RequireAdminAttribute.cs" />
     <Compile Include="Infrastructure\RouteHelper.cs" />
     <Compile Include="Model\AccountModel.cs" />
+    <Compile Include="Model\Customers.cs" />
     <Compile Include="Model\Episodes.cs" />
     <Compile Include="Model\Productions.cs" />
     <Compile Include="Model\Users.cs" />
@@ -115,11 +119,15 @@
     <Content Include="App_Data\DBScripts.sql" />
     <Content Include="Public\images\camera.png" />
     <Content Include="Public\images\agenda.png" />
+    <Content Include="Public\images\lead.png" />
+    <Content Include="Public\images\logo.png" />
+    <Content Include="Public\javascripts\vidpub-search.js" />
     <Content Include="Views\Productions\Index.cshtml" />
     <Content Include="Views\Productions\Create.cshtml" />
     <Content Include="Views\Productions\Edit.cshtml" />
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Vidpub\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Public\images\jquery_ui\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -151,15 +159,7 @@
     <Content Include="Public\stylesheets\jquery_ui\jquery.ui.tabs.css" />
     <Content Include="Public\stylesheets\jquery_ui\jquery.ui.theme.css" />
     <Content Include="Global.asax" />
-    <Content Include="Public\javascripts\jquery-1.5.1-vsdoc.js" />
-    <Content Include="Public\javascripts\jquery-1.5.1.js" />
-    <Content Include="Public\javascripts\jquery-1.5.1.min.js" />
-    <Content Include="Public\javascripts\jquery-ui-1.8.11.js" />
-    <Content Include="Public\javascripts\jquery-ui-1.8.11.min.js" />
-    <Content Include="Public\javascripts\jquery.validate-vsdoc.js" />
-    <Content Include="Public\javascripts\jquery.validate.js" />
     <Content Include="Public\javascripts\jquery.validate.min.js" />
-    <Content Include="Public\javascripts\modernizr-1.7.js" />
     <Content Include="Public\javascripts\modernizr-1.7.min.js" />
     <Content Include="Public\stylesheets\plugins\buttons\icons\cross.png" />
     <Content Include="Public\stylesheets\plugins\buttons\icons\key.png" />
@@ -193,16 +193,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Public\stylesheets\site.css" />
-    <Content Include="Public\javascripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Public\javascripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Public\javascripts\jquery.validate.unobtrusive.js" />
     <Content Include="Public\javascripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Public\javascripts\MicrosoftAjax.js" />
-    <Content Include="Public\javascripts\MicrosoftAjax.debug.js" />
-    <Content Include="Public\javascripts\MicrosoftMvcAjax.js" />
-    <Content Include="Public\javascripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Public\javascripts\MicrosoftMvcValidation.js" />
-    <Content Include="Public\javascripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
