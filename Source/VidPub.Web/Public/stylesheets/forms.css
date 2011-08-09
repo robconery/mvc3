@@ -1,0 +1,61 @@
+﻿/* form style */
+#notifications
+{
+    margin-top:16px;
+    margin-bottom:16px;
+}
+hr
+{
+    margin-top:16px;
+    margin-bottom:16px;
+}
+
+/* input field */
+.vidform input {
+	border:1px solid #444;
+	background-color:#E5ECF9;
+	padding:5px;
+	color:#000;
+	font-size:12px;
+	width:160px;
+	/* CSS3 spicing */
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;	
+}
+.vidform textarea {
+	border:1px solid #444;
+	background-color:#E5ECF9;
+	padding:5px;
+	color:#000;
+	font-size:12px;
+    width: 210px;
+	/* CSS3 spicing */
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;	
+}
+.vidform input:focus 		{ color:#fff; background-color:#777; }
+.vidform input:active 	{ background-color:#888; }
+
+
+/* button */
+.vidform button {
+	outline:0;
+	border:1px solid #666;	
+}
+
+.vidform p
+{
+    padding:0;
+    margin:12px;
+}
+
+/* field label */
+label {
+	display:block;
+	font-size:11px;
+	color:#ccc;
+}
+.imgbutton
+{
+	cursor:pointer;
+}

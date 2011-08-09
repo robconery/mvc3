@@ -13,8 +13,7 @@ namespace VidPub.Web.Infrastructure {
 
             //user logged in?
             if (!controller.IsLoggedIn) {
-                controller.TempData["Error"] = "You need to be logged in to do that";
-                filterContext.HttpContext.Response.Redirect("/account/logon");
+                DecideResponse(filterContext.HttpContext);
                 return;
             }
 
@@ -22,9 +21,18 @@ namespace VidPub.Web.Infrastructure {
             var adminEmails = new string[] { "robconery@gmail.com", "rob@tekpub.com" };
             string userEmail = controller.CurrentUser.Email;
             if (!adminEmails.Contains(userEmail)) {
-                controller.TempData["Error"] = "You're not authorized yo...";
-                filterContext.HttpContext.Response.Redirect("/account/logon");
+                DecideResponse(filterContext.HttpContext);
+                return;
             }
+            
+        }
+        void DecideResponse(HttpContextBase ctx) {
+            if (ctx.Request.ContentType == "application/json") {
+                ctx.Response.Write("Unauthorized");
+            } else {
+                ctx.Response.Redirect("/account/logon");
+            }
+            ctx.Response.End();
         }
     }
 }

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VidPub.Web.Infrastructure;
+using System.Web.Script.Serialization;
+using System.IO;
+using System.Dynamic;
 
 namespace VidPub.Web.Controllers
 {
@@ -44,8 +47,26 @@ namespace VidPub.Web.Controllers
                 return CurrentUser != null;
             }
         }
+        public ActionResult VidpubJSON(dynamic content) {
+            var serializer = new JavaScriptSerializer();
+            serializer.RegisterConverters(new JavaScriptConverter[] { new ExpandoObjectConverter() });
+            var json = serializer.Serialize(content);
+            Response.ContentType = "application/json";
+            return Content(json);
+        }
+        //this feels hacky
+        public dynamic SqueezeJson() {
+            var bodyText = "";
+            using (var stream = Request.InputStream) {
+                stream.Seek(0, SeekOrigin.Begin);
+                using (var reader = new StreamReader(stream))
+                    bodyText = reader.ReadToEnd();
+            }
+            if (string.IsNullOrEmpty(bodyText)) return null;
+            var serializer = new JavaScriptSerializer();
+            serializer.RegisterConverters(new JavaScriptConverter[] { new ExpandoObjectConverter() });
 
-
-
+            return serializer.Deserialize(bodyText, typeof(ExpandoObject));
+        }
     }
 }

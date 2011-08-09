@@ -9,9 +9,9 @@ using System.Dynamic;
 using System.Collections.ObjectModel;
 
 namespace VidPub.Web.Infrastructure {
-    public class CruddyController:ApplicationController {
+    public class CruddyController : ApplicationController {
 
-        public CruddyController(ITokenHandler tokenStore):base(tokenStore) {}
+        public CruddyController(ITokenHandler tokenStore) : base(tokenStore) { }
 
         protected dynamic _table;
         [HttpGet]
@@ -90,42 +90,8 @@ namespace VidPub.Web.Infrastructure {
             }
             return RedirectToAction("Index");
         }
-        public ActionResult VidpubJSON(dynamic content) {
-            var serializer = new JavaScriptSerializer();
-            serializer.RegisterConverters(new JavaScriptConverter[] { new ExpandoObjectConverter() });
-            var json = serializer.Serialize(content);
-            Response.ContentType = "application/json";
-            return Content(json);
-        }
-    }
-    /// <summary>
-    /// A nice gift from Dave Ward! Thanks!
-    /// </summary>
-    public class ExpandoObjectConverter : JavaScriptConverter {
-        public override IEnumerable<Type> SupportedTypes {
-            get { return new ReadOnlyCollection<Type>(new List<Type>(new Type[] { typeof(ExpandoObject) })); }
-        }
 
-        public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer) {
-            ExpandoObject expando = (ExpandoObject)obj;
-
-            if (expando != null) {
-                // Create the representation.
-                Dictionary<string, object> result = new Dictionary<string, object>();
-                foreach (KeyValuePair<string, object> item in expando) {
-                    var value = item.Value ?? "";
-                    if (value.GetType() == typeof(DateTime))
-                        result.Add(item.Key, ((DateTime)value).ToShortDateString());
-                    else
-                        result.Add(item.Key, value.ToString());
-                }
-                return result;
-            }
-            return new Dictionary<string, object>();
-        }
-        public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer) {
-            return null;
-        }
     }
+
 
 }

@@ -2,7 +2,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<script type = "text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+@Assets.Templates()
 @Assets.Script("vidpub-search.js")
 
 <script id="searchTemplate" type="text/html">

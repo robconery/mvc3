@@ -1,0 +1,54 @@
+﻿@helper Scripts(){
+    @Assets.CSS("plugins/buttons/screen.css")
+    @Assets.Script("jquery.validate.min.js")
+    @Assets.Script("jquery.validate.unobtrusive.min.js")
+}
+@helper ValidationMessage(string name) {
+    <span class="field-validation-valid" data-valmsg-for="@name" data-valmsg-replace="true"></span>
+}
+@helper TextBox(string name) {
+    <p>
+        <label>@name</label>
+        <input type="text" name="@name" id="@name" value="${@name}" />
+    </p>
+}
+@helper TextBoxDate(string name) {
+    <p>
+        <label>@name</label>
+        <input type="text" name="@name" id="@name" value="${@name}" class="datepicker"/>
+    </p>
+}
+@helper TextBoxRequired(string name, string requiredMessage = "Required") {
+    <p>
+        <label>@name *</label>
+        <input type="text" name="@name" id="@name" value="${@name}" data-val="true" data-val-required="@requiredMessage" />
+        @ValidationMessage(name)
+    </p>
+    
+}
+@helper TextBoxNumber(string name, string numberMessage = "Should be a number") {
+    <p>
+        <label>@name *</label>
+        <input type="text" name="@name" id="@name" value="${@name}" data-val="true" 
+        data-val-number="@numberMessage" size="6"/>
+        @ValidationMessage(name)
+    </p>
+    
+}
+@helper TextArea(string name, string attributes = "") {
+    <p>
+        <label>@name</label>
+        <textarea name="@name" id="@name" @attributes >${@name}</textarea>
+    </p>
+}
+@helper Submit(string value = "Save") {
+    <p>
+        <button type="submit" class="button positive">
+            <img src="/public/stylesheets/plugins/buttons/icons/tick.png" alt=""/>@value
+        </button>
+    </p>
+    <div class="clear"></div>
+}
+@helper HiddenID(object id) {
+    <input type="hidden" name="ID" id="ID" value="${@id}" />
+}

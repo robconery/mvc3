@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Productions";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Assets.Templates()
+@Assets.Script("underscore-min.js")
+@Assets.Script("backbone-min.js")
+@Assets.Script("production-admin.js")
+@Template.Scripts()
+<script id="notifierTemplate" type="text/html">
+    <div class = "${className}">${message}</div>
+</script>
+<script id="listTemplate" type="text/html">
+<h2>Productions</h2>
+{{each items}}
+<li>
+    <a href="#" data-production-id="${ID}" class="production-link">${Title}</a>
+</li>
+{{/each}}
+<hr />
+<a href="#" id="new-production">Create</a>
+</script>
+<script id="episodeListTemplate" type="text/html">
+    <h2>Episodes</h2>
+    {{each items}}
+        <li><a href="" rel="#episodeForm" class="episode-link" data-episode-id="${ID}">${Number} - ${Title}</a></li>
+    {{/each}}
+    <hr />
+    <a href="#" id="new-episode">Create</a>
+</script>
+<script id="productionFormTemplate" type="text/html">
+    <h2>Edit ${Title}</h2>
+   <form id="productionForm" class="vidform">
+        @Template.TextBox("Title")
+        @Template.TextBox("Author")
+        @Template.TextBoxNumber("Price")
+        @Template.TextArea("Description")
+        @Template.TextBoxDate("ReleasedOn")
+        @Template.Submit()
+    </form>
+
+</script>
+<script id="episodeFormTemplate" type="text/html">
+    <h2>Edit ${Title}</h2>
+    <form id="episodeForm" class="overlayForm vidform">
+        @Template.TextBox("Title")
+        @Template.TextBox("Number")
+        @Template.TextArea("Description")
+        @Template.TextBoxDate("ReleasedOn")
+        @Template.Submit()
+    </form>  
+</script>
+<div class = "column span-24">
+    <div id="notifications"></div>
+</div>
+<div class="column span-3 colborder">
+    <div id="production-list"></div>  
+</div>
+<div class="column span-8 colborder">
+    <div id="production-form"></div>
+    <div id = "episode-list"></div>
+</div>
+<div  class="column span-8" >
+    <div id="episodeForm"></div>
+</div>
+
+
+
+

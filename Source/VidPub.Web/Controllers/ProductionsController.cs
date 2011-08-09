@@ -13,5 +13,9 @@ namespace VidPub.Web.Controllers {
             _table = new Productions();
             ViewBag.Table = _table;
         }
+
+        public ActionResult Editor() {
+            return View();
+        }
     }
 }

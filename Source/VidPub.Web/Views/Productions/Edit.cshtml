@@ -1,22 +1,14 @@
-﻿@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
-
-<h2>Edit</h2>
-@Form.Scripts()
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken();
-    @Form.HiddenID(Model.ID)
-    <fieldset>
-        <legend>Production</legend>
-        @Form.TextBoxRequired("Title",Model.Title)
-        @Form.TextArea("Description",Model.Description)
-        @Form.TextBoxNumber("Price", Model.Price)
+﻿<h2>@Html.ActionLink("Productions","Index","Vidpub") >>> Edit @Model.Title</h2>
+<div class="vidform">
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        @Form.HiddenID(Model.ID)
+        @Form.TextBoxRequired(name: "Title", value: Model.Title)
+        @Form.TextBoxRequired(name: "Slug", value: Model.Slug)
+        @Form.TextArea(name: "Description", value: Model.Description)
+        @Form.TextBoxRequired(name: "Author", value: Model.Author)
+        @Form.TextBoxNumber(name: "Price", value: Model.Price)
+        @Form.TextBox(name: "ReleasedOn", value: Model.ReleasedOn)
         @Form.Submit()
-    </fieldset>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    }
 </div>

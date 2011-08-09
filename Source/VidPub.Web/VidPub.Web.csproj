@@ -14,7 +14,7 @@
     <AssemblyName>VidPub.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectMVC3.cs" />
+    <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\EpisodesController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductionsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
@@ -94,12 +97,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CruddyController.cs" />
+    <Compile Include="Infrastructure\ExpandoObjectConverter.cs" />
     <Compile Include="Infrastructure\FormsAuthTokenStore.cs" />
     <Compile Include="Infrastructure\Logging\ILogger.cs" />
     <Compile Include="Infrastructure\Logging\NLogger.cs" />
     <Content Include="App_Code\Assets.cshtml" />
     <Content Include="App_Code\URL.cshtml" />
+    <Content Include="App_Code\Form.cshtml" />
+    <Content Include="App_Code\Template.cshtml" />
     <None Include="App_Data\logs\site.log" />
+    <Content Include="Areas\Api\Views\Web.config" />
     <None Include="CodeTemplates\AddController\Controller.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\Create.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\Edit.tt" />
@@ -117,32 +124,37 @@
     <Compile Include="Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App_Data\DBScripts.sql" />
+    <Content Include="HTMLPage1.htm" />
     <Content Include="Public\images\camera.png" />
     <Content Include="Public\images\agenda.png" />
-    <Content Include="Public\images\lead.png" />
-    <Content Include="Public\images\logo.png" />
+    <Content Include="Public\images\close.png" />
+    <Content Include="Public\javascripts\backbone-min.js" />
+    <Content Include="Public\javascripts\production-admin.js" />
+    <Content Include="Public\javascripts\underscore-min.js" />
     <Content Include="Public\javascripts\vidpub-search.js" />
+    <Content Include="Public\stylesheets\forms.css" />
     <Content Include="Views\Productions\Index.cshtml" />
     <Content Include="Views\Productions\Create.cshtml" />
     <Content Include="Views\Productions\Edit.cshtml" />
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Vidpub\Index.cshtml" />
+    <Content Include="Views\Vidpub\Productions.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Public\images\jquery_ui\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_222222_256x240.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_454545_256x240.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_888888_256x240.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-icons_454545_256x240.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-icons_888888_256x240.png" />
+    <Content Include="Public\stylesheets\jquery_ui\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Public\stylesheets\ie.css" />
     <Content Include="Public\stylesheets\jquery_ui\jquery.ui.accordion.css" />
     <Content Include="Public\stylesheets\jquery_ui\jquery.ui.all.css" />
@@ -212,6 +224,10 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\Api\Models\" />
+    <Folder Include="Areas\Api\Views\Shared\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -227,12 +243,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1701</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:1701/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

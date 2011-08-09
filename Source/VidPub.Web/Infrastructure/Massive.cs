@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Web.Helpers;
+using System.Text.RegularExpressions;
 
 namespace Massive {
     public static class ObjectExtensions {
@@ -79,6 +81,7 @@ namespace Massive {
             }
             return result;
         }
+
         /// <summary>
         /// Turns the object into a Dictionary
         /// </summary>
@@ -118,12 +121,7 @@ namespace Massive {
                 if (exists) {
                     var key = item.ToString();
                     var val = coll[key];
-                    if (!String.IsNullOrEmpty(val)) {
-                        //what to do here? If it's empty... set it to NULL?
-                        //if it's a string value - let it go through if it's NULLABLE?
-                        //Empty? WTF?
-                        dc.Add(key, val);
-                    }
+                    dc.Add(key, val);
                 }
             }
             return result;
@@ -257,15 +255,7 @@ namespace Massive {
             }
             return commands;
         }
-        /// <summary>
-        /// Executes a set of objects as Insert or Update commands based on their property settings, within a transaction.
-        /// These objects can be POCOs, Anonymous, NameValueCollections, or Expandos. Objects
-        /// With a PK property (whatever PrimaryKeyField is set to) will be created at UPDATEs
-        /// </summary>
-        public virtual int Save(params object[] things) {
-            var commands = BuildCommands(things);
-            return Execute(commands);
-        }
+
 
         public virtual int Execute(DbCommand command) {
             return Execute(new DbCommand[] { command });
@@ -312,98 +302,7 @@ namespace Massive {
         /// <summary>
         /// Creates a command for use with transactions - internal stuff mostly, but here for you to play with
         /// </summary>
-        public virtual DbCommand CreateInsertCommand(object o) {
-            DbCommand result = null;
-            var expando = o.ToExpando();
-            var settings = (IDictionary<string, object>)expando;
-            var sbKeys = new StringBuilder();
-            var sbVals = new StringBuilder();
-            var stub = "INSERT INTO {0} ({1}) \r\n VALUES ({2})";
-            result = CreateCommand(stub, null);
-            int counter = 0;
-            foreach (var item in settings) {
-                sbKeys.AppendFormat("{0},", item.Key);
-                sbVals.AppendFormat("@{0},", counter.ToString());
-                result.AddParam(item.Value);
-                counter++;
-            }
-            if (counter > 0) {
-                var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 1);
-                var vals = sbVals.ToString().Substring(0, sbVals.Length - 1);
-                var sql = string.Format(stub, TableName, keys, vals);
-                result.CommandText = sql;
-            } else throw new InvalidOperationException("Can't parse this object to the database - there are no properties set");
-            return result;
-        }
-        /// <summary>
-        /// Creates a command for use with transactions - internal stuff mostly, but here for you to play with
-        /// </summary>
-        public virtual DbCommand CreateUpdateCommand(object o, object key) {
-            var expando = o.ToExpando();
-            var settings = (IDictionary<string, object>)expando;
-            var sbKeys = new StringBuilder();
-            var stub = "UPDATE {0} SET {1} WHERE {2} = @{3}";
-            var args = new List<object>();
-            var result = CreateCommand(stub, null);
-            int counter = 0;
-            foreach (var item in settings) {
-                var val = item.Value;
-                if (!item.Key.Equals(PrimaryKeyField, StringComparison.CurrentCultureIgnoreCase) && item.Value != null) {
-                    result.AddParam(val);
-                    sbKeys.AppendFormat("{0} = @{1}, \r\n", item.Key, counter.ToString());
-                    counter++;
-                }
-            }
-            if (counter > 0) {
-                //add the key
-                result.AddParam(key);
-                //strip the last commas
-                var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 4);
-                result.CommandText = string.Format(stub, TableName, keys, PrimaryKeyField, counter);
-            } else throw new InvalidOperationException("No parsable object was sent in - could not divine any name/value pairs");
-            return result;
-        }
-        /// <summary>
-        /// Removes one or more records from the DB according to the passed-in WHERE
-        /// </summary>
-        public virtual DbCommand CreateDeleteCommand(string where = "", object key = null, params object[] args) {
-            var sql = string.Format("DELETE FROM {0} ", TableName);
-            if (key != null) {
-                sql += string.Format("WHERE {0}=@0", PrimaryKeyField);
-                args = new object[] { key };
-            } else if (!string.IsNullOrEmpty(where)) {
-                sql += where.Trim().StartsWith("where", StringComparison.CurrentCultureIgnoreCase) ? where : "WHERE " + where;
-            }
-            return CreateCommand(sql, null, args);
-        }
-        /// <summary>
-        /// Adds a record to the database. You can pass in an Anonymous object, an ExpandoObject,
-        /// A regular old POCO, or a NameValueColletion from a Request.Form or Request.QueryString
-        /// </summary>
-        public virtual object Insert(object o) {
-            dynamic result = 0;
-            using (var conn = OpenConnection()) {
-                var cmd = CreateInsertCommand(o);
-                cmd.Connection = conn;
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "SELECT @@IDENTITY as newID";
-                result = cmd.ExecuteScalar();
-            }
-            return result;
-        }
-        /// <summary>
-        /// Updates a record in the database. You can pass in an Anonymous object, an ExpandoObject,
-        /// A regular old POCO, or a NameValueCollection from a Request.Form or Request.QueryString
-        /// </summary>
-        public virtual int Update(object o, object key) {
-            return Execute(CreateUpdateCommand(o, key));
-        }
-        /// <summary>
-        /// Removes one or more records from the DB according to the passed-in WHERE
-        /// </summary>
-        public int Delete(object key = null, string where = "", params object[] args) {
-            return Execute(CreateDeleteCommand(where: where, key: key, args: args));
-        }
+
         /// <summary>
         /// Returns all records complying with the passed-in WHERE clause and arguments, 
         /// ordered as specified, limited (TOP) by limit.
@@ -479,6 +378,166 @@ namespace Massive {
             return (IDictionary<string,object>)Query(sql);
         }
 
+        /// <summary>
+        /// Executes a set of objects as Insert or Update commands based on their property settings, within a transaction.
+        /// These objects can be POCOs, Anonymous, NameValueCollections, or Expandos. Objects
+        /// With a PK property (whatever PrimaryKeyField is set to) will be created at UPDATEs
+        /// </summary>
+        public virtual int Save(params object[] things) {
+            foreach (var item in things) {
+                if (!IsValid(item)) {
+                    throw new InvalidOperationException("Can't save this item: " + String.Join("; ", Errors.ToArray()));
+                }
+            }
+            var commands = BuildCommands(things);
+            return Execute(commands);
+        }
+        public virtual DbCommand CreateInsertCommand(object o) {
+            DbCommand result = null;
+            var expando = o.ToExpando();
+            var settings = (IDictionary<string, object>)expando;
+            var sbKeys = new StringBuilder();
+            var sbVals = new StringBuilder();
+            var stub = "INSERT INTO {0} ({1}) \r\n VALUES ({2})";
+            result = CreateCommand(stub, null);
+            int counter = 0;
+            foreach (var item in settings) {
+                sbKeys.AppendFormat("{0},", item.Key);
+                sbVals.AppendFormat("@{0},", counter.ToString());
+                result.AddParam(item.Value);
+                counter++;
+            }
+            if (counter > 0) {
+                var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 1);
+                var vals = sbVals.ToString().Substring(0, sbVals.Length - 1);
+                var sql = string.Format(stub, TableName, keys, vals);
+                result.CommandText = sql;
+            } else throw new InvalidOperationException("Can't parse this object to the database - there are no properties set");
+            return result;
+        }
+        /// <summary>
+        /// Creates a command for use with transactions - internal stuff mostly, but here for you to play with
+        /// </summary>
+        public virtual DbCommand CreateUpdateCommand(object o, object key) {
+            var expando = o.ToExpando();
+            var settings = (IDictionary<string, object>)expando;
+            var sbKeys = new StringBuilder();
+            var stub = "UPDATE {0} SET {1} WHERE {2} = @{3}";
+            var args = new List<object>();
+            var result = CreateCommand(stub, null);
+            int counter = 0;
+            foreach (var item in settings) {
+                var val = item.Value;
+                if (!item.Key.Equals(PrimaryKeyField, StringComparison.CurrentCultureIgnoreCase) && item.Value != null) {
+                    result.AddParam(val);
+                    sbKeys.AppendFormat("{0} = @{1}, \r\n", item.Key, counter.ToString());
+                    counter++;
+                }
+            }
+            if (counter > 0) {
+                //add the key
+                result.AddParam(key);
+                //strip the last commas
+                var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 4);
+                result.CommandText = string.Format(stub, TableName, keys, PrimaryKeyField, counter);
+            } else throw new InvalidOperationException("No parsable object was sent in - could not divine any name/value pairs");
+            return result;
+        }
+        /// <summary>
+        /// Removes one or more records from the DB according to the passed-in WHERE
+        /// </summary>
+        public virtual DbCommand CreateDeleteCommand(string where = "", object key = null, params object[] args) {
+            var sql = string.Format("DELETE FROM {0} ", TableName);
+            if (key != null) {
+                sql += string.Format("WHERE {0}=@0", PrimaryKeyField);
+                args = new object[] { key };
+            } else if (!string.IsNullOrEmpty(where)) {
+                sql += where.Trim().StartsWith("where", StringComparison.CurrentCultureIgnoreCase) ? where : "WHERE " + where;
+            }
+            return CreateCommand(sql, null, args);
+        }
+
+        public bool IsValid(dynamic item) {
+            Errors.Clear();
+            Validate(item);
+            return Errors.Count == 0;
+        }
+
+        //Temporary holder for error messages
+        public IList<string> Errors = new List<string>();
+        /// <summary>
+        /// Adds a record to the database. You can pass in an Anonymous object, an ExpandoObject,
+        /// A regular old POCO, or a NameValueColletion from a Request.Form or Request.QueryString
+        /// </summary>
+        public virtual object Insert(object o) {
+            if (!IsValid(o)) {
+                throw new InvalidOperationException("Can't insert: "+String.Join("; ",Errors.ToArray()));
+            }
+            dynamic result = 0;
+            using (var conn = OpenConnection()) {
+                var cmd = CreateInsertCommand(o);
+                cmd.Connection = conn;
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = "SELECT SCOPE_IDENTITY() as newID";
+                result = cmd.ExecuteScalar();
+                dynamic newRecord = o.ToExpando();
+                newRecord.ID = result;
+                Inserted(newRecord);
+            }
+            return result;
+        }
+        /// <summary>
+        /// Updates a record in the database. You can pass in an Anonymous object, an ExpandoObject,
+        /// A regular old POCO, or a NameValueCollection from a Request.Form or Request.QueryString
+        /// </summary>
+        public virtual int Update(object o, object key) {
+            if (!IsValid(o)) {
+                throw new InvalidOperationException("Can't Update: " + String.Join("; ", Errors.ToArray()));
+            }
+            var result = Execute(CreateUpdateCommand(o, key));
+            Updated(o);
+            return result;
+        }
+        /// <summary>
+        /// Removes one or more records from the DB according to the passed-in WHERE
+        /// </summary>
+        public int Delete(object key = null, string where = "", params object[] args) {
+            var result= Execute(CreateDeleteCommand(where: where, key: key, args: args));
+            Deleted(key);
+            return result;
+        }
+
+        //Hooks
+        public virtual void Validate(dynamic item) { }
+        public virtual void Inserted(dynamic item) { }
+        public virtual void Updated(dynamic item) { }
+        public virtual void Deleted(object key) { }
+
+        //validation methods
+        public virtual void ValidatesPresenceOf(object value, string message = "Required") {
+            if (value == null)
+                Errors.Add(message);
+            if (String.IsNullOrEmpty(value.ToString()))
+                Errors.Add(message);
+        }
+        //fun methods
+        public virtual void ValidatesNumericalityOf(object value, string message = "Should be a number") {
+            var type = value.GetType().Name;
+            var numerics = new string[]{ "Int32","Int16","Int64", "Decimal", "Double","Single","Float" };
+            if (!numerics.Contains(type)) {
+                Errors.Add(message);
+            }
+        }
+        public virtual void ValidateIsCurrency(object value, string message = "Should be money") {
+            if (value == null)
+                Errors.Add(message);
+            decimal val = decimal.MinValue;
+            decimal.TryParse(value.ToString(), out val);
+            if (val == decimal.MinValue)
+                Errors.Add(message);
+
+           
+        }
         /// <summary>
         /// A helpful query tool
         /// </summary>
