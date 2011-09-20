@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Dynamic;
 using Massive;
-using System.Data.SqlServerCe;
 using System.Security.Cryptography;
 
 namespace VidPub.Web.Model {
