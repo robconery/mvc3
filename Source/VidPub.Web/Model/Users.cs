@@ -19,7 +19,7 @@ namespace VidPub.Web.Model {
                     result.UserID = this.Insert(new { Email = email, HashedPassword = Hash(password) });
                     result.Success = true;
                     result.Message = "Thanks for signing up!";
-                } catch (SqlCeException ex) {
+                } catch  {
                     result.Message = "This email already exists in our system";
                 }
             } else {
