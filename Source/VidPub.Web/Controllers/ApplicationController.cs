@@ -7,22 +7,32 @@ using VidPub.Web.Infrastructure;
 using System.Web.Script.Serialization;
 using System.IO;
 using System.Dynamic;
+using VidPub.Web.Infrastructure.Logging;
 
 namespace VidPub.Web.Controllers
 {
     public class ApplicationController : Controller
     {
-        public ApplicationController() { }
-
         public ITokenHandler TokenStore;
+        public ILogger Logger;
+        public ApplicationController(ITokenHandler tokenStore,ILogger logger) {
+            TokenStore = tokenStore;
+            Logger = logger;
+            //initialize this
+            ViewBag.CurrentUser = CurrentUser ?? new { Email = "" };
+
+        }       
         public ApplicationController(ITokenHandler tokenStore) {
             TokenStore = tokenStore;
-
+            Logger = new NLogger();
             //initialize this
             ViewBag.CurrentUser = CurrentUser ?? new { Email = "" };
 
         }
-
+        public ApplicationController() {
+            Logger = new NLogger();
+            TokenStore = new FormsAuthTokenStore();
+        }
         dynamic _currentUser;
         public dynamic CurrentUser {
             get {
@@ -54,18 +64,24 @@ namespace VidPub.Web.Controllers
             Response.ContentType = "application/json";
             return Content(json);
         }
-        //this feels hacky
-        public dynamic SqueezeJson() {
+        public string ReadJson() {
             var bodyText = "";
             using (var stream = Request.InputStream) {
                 stream.Seek(0, SeekOrigin.Begin);
                 using (var reader = new StreamReader(stream))
                     bodyText = reader.ReadToEnd();
             }
-            if (string.IsNullOrEmpty(bodyText)) return null;
+            return bodyText;
+        }
+        public dynamic SqueezeJson() {
             var serializer = new JavaScriptSerializer();
             serializer.RegisterConverters(new JavaScriptConverter[] { new ExpandoObjectConverter() });
-
+            var bodyText = "";
+            using (var stream = Request.InputStream) {
+                stream.Seek(0, SeekOrigin.Begin);
+                using (var reader = new StreamReader(stream))
+                    bodyText = reader.ReadToEnd();
+            }
             return serializer.Deserialize(bodyText, typeof(ExpandoObject));
         }
     }

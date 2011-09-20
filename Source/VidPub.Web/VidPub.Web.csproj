@@ -24,6 +24,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <ExcludeApp_Data>true</ExcludeApp_Data>
+    <PublishDatabases>false</PublishDatabases>
+    <DeployIisAppPath>Vidpub</DeployIisAppPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +45,9 @@
       <HintPath>..\packages\Elmah.Contrib.Mvc.1.0\lib\net40\Elmah.Contrib.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
@@ -92,6 +99,7 @@
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductionsController.cs" />
+    <Compile Include="Controllers\ShopifyController.cs" />
     <Compile Include="Controllers\VidpubController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -101,6 +109,12 @@
     <Compile Include="Infrastructure\FormsAuthTokenStore.cs" />
     <Compile Include="Infrastructure\Logging\ILogger.cs" />
     <Compile Include="Infrastructure\Logging\NLogger.cs" />
+    <Compile Include="Model\VideoLog.cs" />
+    <Compile Include="VidPubDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VidPubDataSet.xsd</DependentUpon>
+    </Compile>
     <Content Include="App_Code\Assets.cshtml" />
     <Content Include="App_Code\URL.cshtml" />
     <Content Include="App_Code\Form.cshtml" />
@@ -120,14 +134,31 @@
     <Compile Include="Model\AccountModel.cs" />
     <Compile Include="Model\Customers.cs" />
     <Compile Include="Model\Episodes.cs" />
+    <Compile Include="Model\Orders.cs" />
     <Compile Include="Model\Productions.cs" />
     <Compile Include="Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App_Data\DBScripts.sql" />
     <Content Include="HTMLPage1.htm" />
+    <Content Include="App_Data\ShopifyPing.js" />
     <Content Include="Public\images\camera.png" />
     <Content Include="Public\images\agenda.png" />
     <Content Include="Public\images\close.png" />
+    <Content Include="Public\images\jquery_ui\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Public\images\jquery_ui\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Public\images\jquery_ui\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Public\images\jquery_ui\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Public\images\jquery_ui\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Public\images\jquery_ui\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Public\images\jquery_ui\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Public\images\jquery_ui\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Public\images\jquery_ui\ui-icons_222222_256x240.png" />
+    <Content Include="Public\images\jquery_ui\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Public\images\jquery_ui\ui-icons_454545_256x240.png" />
+    <Content Include="Public\images\jquery_ui\ui-icons_888888_256x240.png" />
+    <Content Include="Public\images\jquery_ui\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Public\images\lead.png" />
+    <Content Include="Public\images\logo.png" />
     <Content Include="Public\javascripts\backbone-min.js" />
     <Content Include="Public\javascripts\production-admin.js" />
     <Content Include="Public\javascripts\underscore-min.js" />
@@ -140,6 +171,17 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Vidpub\Index.cshtml" />
     <Content Include="Views\Vidpub\Productions.cshtml" />
+    <None Include="VidPubDataSet.xsc">
+      <DependentUpon>VidPubDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="VidPubDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>VidPubDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="VidPubDataSet.xss">
+      <DependentUpon>VidPubDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />

@@ -187,21 +187,6 @@ namespace Massive {
                 }
             }
         }
-        /// <summary>
-        /// Executes the reader using SQL async API - thanks to Damian Edwards
-        /// </summary>
-        public void QueryAsync(string sql, Action<List<dynamic>> callback, params object[] args) {
-            using (var conn = new SqlConnection(ConnectionString)) {
-                var cmd = new SqlCommand(sql, conn);
-                cmd.AddParams(args);
-                conn.Open();
-                var task = Task.Factory.FromAsync<IDataReader>(cmd.BeginExecuteReader, cmd.EndExecuteReader, null);
-                task.ContinueWith(x => callback.Invoke(x.Result.ToExpandoList()));
-                //make sure this is closed off.
-                conn.Close();
-            }
-        }
-
         public virtual IEnumerable<dynamic> Query(string sql, DbConnection connection, params object[] args) {
             using (var rdr = CreateCommand(sql, connection, args).ExecuteReader()) {
                 while (rdr.Read()) {
@@ -300,10 +285,6 @@ namespace Massive {
         }
         public virtual string TableName { get; set; }
         /// <summary>
-        /// Creates a command for use with transactions - internal stuff mostly, but here for you to play with
-        /// </summary>
-
-        /// <summary>
         /// Returns all records complying with the passed-in WHERE clause and arguments, 
         /// ordered as specified, limited (TOP) by limit.
         /// </summary>
@@ -319,14 +300,7 @@ namespace Massive {
                 sql += orderBy.Trim().StartsWith("order by", StringComparison.CurrentCultureIgnoreCase) ? orderBy : " ORDER BY " + orderBy;
             return sql;
         }
-        /// <summary>
-        /// Returns all records complying with the passed-in WHERE clause and arguments, 
-        /// ordered as specified, limited (TOP) by limit.
-        /// </summary>
-        public virtual void AllAsync(Action<List<dynamic>> callback, string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args) {
-            string sql = BuildSelect(where, orderBy, limit);
-            QueryAsync(string.Format(sql, columns, TableName), callback, args);
-        }
+
         /// <summary>
         /// Returns a dynamic PagedResult. Result properties are Items, TotalPages, and TotalRecords.
         /// </summary>
@@ -378,6 +352,17 @@ namespace Massive {
             return (IDictionary<string,object>)Query(sql);
         }
 
+        /// <summary>
+        /// This will return an Expando as a Dictionary
+        /// </summary>
+        public virtual IDictionary<string, object> ItemAsDictionary(ExpandoObject item) {
+            return (IDictionary<string, object>)item;
+        }
+        //Checks to see if a key is present based on the passed-in value
+        public virtual bool ItemContainsKey(string key, ExpandoObject item) {
+            var dc = ItemAsDictionary(item);
+            return dc.ContainsKey(key);
+        }
         /// <summary>
         /// Executes a set of objects as Insert or Update commands based on their property settings, within a transaction.
         /// These objects can be POCOs, Anonymous, NameValueCollections, or Expandos. Objects
@@ -469,22 +454,21 @@ namespace Massive {
         /// Adds a record to the database. You can pass in an Anonymous object, an ExpandoObject,
         /// A regular old POCO, or a NameValueColletion from a Request.Form or Request.QueryString
         /// </summary>
-        public virtual object Insert(object o) {
+        public virtual dynamic Insert(object o) {
             if (!IsValid(o)) {
                 throw new InvalidOperationException("Can't insert: "+String.Join("; ",Errors.ToArray()));
             }
-            dynamic result = 0;
+            dynamic newRecord = new ExpandoObject();
             using (var conn = OpenConnection()) {
                 var cmd = CreateInsertCommand(o);
                 cmd.Connection = conn;
                 cmd.ExecuteNonQuery();
-                cmd.CommandText = "SELECT SCOPE_IDENTITY() as newID";
-                result = cmd.ExecuteScalar();
-                dynamic newRecord = o.ToExpando();
-                newRecord.ID = result;
+                cmd.CommandText = "SELECT @@IDENTITY as newID";
+                newRecord = o.ToExpando();
+                newRecord.ID = cmd.ExecuteScalar();
                 Inserted(newRecord);
             }
-            return result;
+            return newRecord;
         }
         /// <summary>
         /// Updates a record in the database. You can pass in an Anonymous object, an ExpandoObject,
@@ -502,8 +486,9 @@ namespace Massive {
         /// Removes one or more records from the DB according to the passed-in WHERE
         /// </summary>
         public int Delete(object key = null, string where = "", params object[] args) {
+            var deleted = this.Single(key);
             var result= Execute(CreateDeleteCommand(where: where, key: key, args: args));
-            Deleted(key);
+            Deleted(deleted);
             return result;
         }
 
@@ -511,7 +496,7 @@ namespace Massive {
         public virtual void Validate(dynamic item) { }
         public virtual void Inserted(dynamic item) { }
         public virtual void Updated(dynamic item) { }
-        public virtual void Deleted(object key) { }
+        public virtual void Deleted(dynamic item) { }
 
         //validation methods
         public virtual void ValidatesPresenceOf(object value, string message = "Required") {
