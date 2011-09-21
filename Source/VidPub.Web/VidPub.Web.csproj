@@ -24,10 +24,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
-    <ExcludeApp_Data>true</ExcludeApp_Data>
-    <PublishDatabases>false</PublishDatabases>
-    <DeployIisAppPath>Vidpub</DeployIisAppPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -93,6 +89,8 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\EpisodesController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductionsController.cs" />
+    <Compile Include="Areas\Reporting\Controllers\AnnualController.cs" />
+    <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
@@ -105,22 +103,21 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CruddyController.cs" />
+    <Compile Include="Infrastructure\CSVResult.cs" />
     <Compile Include="Infrastructure\ExpandoObjectConverter.cs" />
     <Compile Include="Infrastructure\FormsAuthTokenStore.cs" />
     <Compile Include="Infrastructure\Logging\ILogger.cs" />
     <Compile Include="Infrastructure\Logging\NLogger.cs" />
+    <Compile Include="Model\Channels.cs" />
     <Compile Include="Model\VideoLog.cs" />
-    <Compile Include="VidPubDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>VidPubDataSet.xsd</DependentUpon>
-    </Compile>
     <Content Include="App_Code\Assets.cshtml" />
     <Content Include="App_Code\URL.cshtml" />
     <Content Include="App_Code\Form.cshtml" />
     <Content Include="App_Code\Template.cshtml" />
     <None Include="App_Data\logs\site.log" />
     <Content Include="Areas\Api\Views\Web.config" />
+    <Content Include="Areas\Reporting\Views\Web.config" />
+    <Content Include="Areas\Reporting\Views\Annual\Sales.cshtml" />
     <None Include="CodeTemplates\AddController\Controller.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\Create.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\Edit.tt" />
@@ -144,21 +141,6 @@
     <Content Include="Public\images\camera.png" />
     <Content Include="Public\images\agenda.png" />
     <Content Include="Public\images\close.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Public\images\jquery_ui\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_222222_256x240.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_454545_256x240.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_888888_256x240.png" />
-    <Content Include="Public\images\jquery_ui\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Public\images\lead.png" />
-    <Content Include="Public\images\logo.png" />
     <Content Include="Public\javascripts\backbone-min.js" />
     <Content Include="Public\javascripts\production-admin.js" />
     <Content Include="Public\javascripts\underscore-min.js" />
@@ -171,17 +153,6 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Vidpub\Index.cshtml" />
     <Content Include="Views\Vidpub\Productions.cshtml" />
-    <None Include="VidPubDataSet.xsc">
-      <DependentUpon>VidPubDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="VidPubDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>VidPubDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="VidPubDataSet.xss">
-      <DependentUpon>VidPubDataSet.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -269,6 +240,8 @@
   <ItemGroup>
     <Folder Include="Areas\Api\Models\" />
     <Folder Include="Areas\Api\Views\Shared\" />
+    <Folder Include="Areas\Reporting\Models\" />
+    <Folder Include="Areas\Reporting\Views\Shared\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

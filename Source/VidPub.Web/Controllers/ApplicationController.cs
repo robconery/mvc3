@@ -84,5 +84,9 @@ namespace VidPub.Web.Controllers
             }
             return serializer.Deserialize(bodyText, typeof(ExpandoObject));
         }
+
+        public ActionResult CSV(IEnumerable<dynamic> data, string fileName) {
+            return new CSVResult(data, fileName);
+        }
     }
 }

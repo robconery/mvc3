@@ -1,0 +1,33 @@
+﻿
+<table>
+    <tr>
+        <th>SKU</th>
+        <th>Channel</th>
+        <th>Quarter</th>
+        <th>Year</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Quantity</th>
+        <th>OrderType</th>
+        <th>Vendor</th>
+        <th>BandwidthInGigs</th>
+        <th>BandwidthCost</th>
+    </tr>
+    @foreach (var item in Model) {
+    <tr>
+        <td>@item.SKU</td>
+        <td>@item.Channel</td>
+        <td>@item.Quarter</td>
+        <td>@item.Year</td>
+        <td>@item.Price</td>
+        <td>@item.Discount</td>
+        <td>@item.Quantity</td>
+        <td>@item.OrderType</td>
+        <td>@item.Vendor</td>
+        <td>@item.BandwidthInGigs</td>
+        <td>@item.BandwidthCost.ToString("C")</td>
+    </tr>
+               
+    }
+</table>
+
