@@ -64,7 +64,7 @@ namespace VidPub.Web.Controllers {
 
             var result = _users.Register(Email, Password, Confirm);
             if (result.Success) {
-                SetToken(result.UserID);
+                SetToken(result.UserID.ID);
                 return RedirectToAction("Index", "Home");
             } else {
                 ViewBag.Message = result.Message;
