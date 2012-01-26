@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Dynamic;
@@ -20,7 +21,9 @@ namespace VidPub.Web.Model {
                     result.UserID = this.Insert(new { Email = email, HashedPassword = Hash(password) });
                     result.Success = true;
                     result.Message = "Thanks for signing up!";
-                } catch (SqlCeException ex) {
+                } catch (Exception ex)
+                {
+                    if (ex is SqlCeException || ex is SqlException)
                     result.Message = "This email already exists in our system";
                 }
             } else {
