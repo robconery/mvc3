@@ -1,0 +1,16 @@
+﻿@helper Script(dynamic tempData){
+    <div id="notifier"></div>
+    if (tempData["message"] != null) {
+        <script type="text/javascript">
+            notifier.success('@tempData["message"]');
+        </script>
+    }else if (tempData["alert"] != null) {
+        <script type="text/javascript">
+            notifier.error('@tempData["alert"]');
+        </script>
+    }else if (tempData["notice"] != null) {
+        <script type="text/javascript">
+            notifier.warn('@tempData["notice"]');
+        </script>
+    }
+}

@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Productions";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@Assets.Script("notifier.js")
+
+<div class="column span-24 tmargin-24">
+@Notifier.Script(TempData)
+<h1>
+    @Html.ActionLink("Admin","index") >> 
+    Edit: @Model.First @Model.Last
+</h1>
+   <form action="/customers/edit" class="vidform" method="post">
+        @Html.AntiForgeryToken()
+        @Form.HiddenID(Model.ID)
+        @Form.TextBox("First",Model.First)
+        @Form.TextBox("Last",Model.Last)
+        @Form.TextBox("Email",Model.Email)
+        @Form.TextBoxDate("StreamUntil",Model.StreamUntil)
+        @Form.TextBoxDate("DownloadUntil",Model.DownloadUntil)
+        @Form.Submit()
+    </form>
+
+<div  class="column span-8" >
+    <div id="customerForm"></div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+</script>
+</div>
+
+

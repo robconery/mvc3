@@ -5,17 +5,26 @@
 @Assets.Templates()
 @Assets.Script("vidpub-search.js")
 
-<script id="searchTemplate" type="text/html">
+<script id="productionTemplate" type="text/html">
     <h2>${controller}</h2>
     <table>
         {{each items}}
             <tr>
-                <td><a href="${controller}/edit/${ID}">${Title}</a></td>
+                <td><a href="/vidpub/productions/#edit/${ID}">${Title}</a></td>
             </tr>
         {{/each}}
     </table>
 </script>
-
+<script id="customerTemplate" type="text/html">
+    <h2>Customers</h2>
+    <table>
+        {{each items}}
+            <tr>
+                <td><a href="/vidpub/customers/${ID}">${Last}, ${First}</a></td>
+            </tr>
+        {{/each}}
+    </table>
+</script>
 <h2>Vidpub Admin</h2>
 <form id="searchForm">
     <label>Find:</label>

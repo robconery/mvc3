@@ -13,6 +13,13 @@
         <input type="text" name="@name" id="@name" value="@val" />
     </p>
 }
+@helper TextBoxDate(string name, object value = null) {
+    var val = value ?? "";
+    <p>
+        <label>@name</label>
+        <input type="text" name="@name" id="@name" value="@val" class="datepicker"/>
+    </p>
+}
 @helper TextBoxRequired(string name, object value = null, string requiredMessage = "Required") {
     var val = value ?? "";
     <p>

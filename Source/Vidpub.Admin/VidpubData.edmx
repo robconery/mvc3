@@ -1,0 +1,705 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VidPubModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="VidPubModelStoreContainer">
+          <EntitySet Name="Channels" EntityType="VidPubModel.Store.Channels" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Customers" EntityType="VidPubModel.Store.Customers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Customers_Productions" EntityType="VidPubModel.Store.Customers_Productions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Episodes" EntityType="VidPubModel.Store.Episodes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderItems" EntityType="VidPubModel.Store.OrderItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Orders" EntityType="VidPubModel.Store.Orders" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Productions" EntityType="VidPubModel.Store.Productions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Subscriptions" EntityType="VidPubModel.Store.Subscriptions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="VidPubModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="VideoLog" EntityType="VidPubModel.Store.VideoLog" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Customers_Productions_Customer" Association="VidPubModel.Store.FK_Customers_Productions_Customer">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Customers_Productions" EntitySet="Customers_Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customers_Productions_Productions" Association="VidPubModel.Store.FK_Customers_Productions_Productions">
+            <End Role="Productions" EntitySet="Productions" />
+            <End Role="Customers_Productions" EntitySet="Customers_Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Episodes_Productions" Association="VidPubModel.Store.FK_Episodes_Productions">
+            <End Role="Productions" EntitySet="Productions" />
+            <End Role="Episodes" EntitySet="Episodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItems_Orders" Association="VidPubModel.Store.FK_OrderItems_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productions_Channels" Association="VidPubModel.Store.FK_Productions_Channels">
+            <End Role="Channels" EntitySet="Channels" />
+            <End Role="Productions" EntitySet="Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subscription_Customer" Association="VidPubModel.Store.FK_Subscription_Customer">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Channels">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Slug" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="First" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Last" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="HighriseID" Type="int" />
+          <Property Name="StreamUntil" Type="datetime" />
+          <Property Name="DownloadUntil" Type="datetime" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customers_Productions">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="ProductionID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="ProductionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Episodes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductionID" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="ReleasedOn" Type="datetime" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+          <Property Name="DurationMinutes" Type="int" Nullable="false" />
+          <Property Name="HDFileSize" Type="int" Nullable="false" />
+          <Property Name="MobileFileSize" Type="int" Nullable="false" />
+          <Property Name="TabletFileSize" Type="int" Nullable="false" />
+          <Property Name="StreamFileSize" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderItems">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Discount" Type="money" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="RequiresShipping" Type="bit" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Grams" Type="int" />
+          <Property Name="SKU" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="FulfillmentStatus" Type="nvarchar" MaxLength="255" />
+          <Property Name="Vendor" Type="nvarchar" MaxLength="255" />
+          <Property Name="FulfillmentService" Type="nvarchar" MaxLength="255" />
+          <Property Name="OrderType" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Channel" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNumber" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="ShopifyID" Type="int" Nullable="false" />
+          <Property Name="ShopifyName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Discount" Type="money" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="CancelReason" Type="nvarchar" MaxLength="255" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="Subtotal" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="Token" Type="nvarchar" MaxLength="255" />
+          <Property Name="Total" Type="money" Nullable="false" />
+          <Property Name="TaxIncluded" Type="bit" />
+          <Property Name="LandingPage" Type="nvarchar" MaxLength="255" />
+          <Property Name="ShopifyNumber" Type="nvarchar" MaxLength="255" />
+          <Property Name="ReferringSite" Type="nvarchar" MaxLength="255" />
+          <Property Name="Note" Type="nvarchar" MaxLength="255" />
+          <Property Name="Gateway" Type="nvarchar" MaxLength="255" />
+          <Property Name="FulfillmentStatus" Type="nvarchar" MaxLength="255" />
+          <Property Name="FinancialStatus" Type="nvarchar" MaxLength="255" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="4" />
+          <Property Name="ClosedAt" Type="datetime" />
+          <Property Name="AcceptsMarketing" Type="bit" />
+          <Property Name="Tax" Type="money" />
+          <Property Name="ReferralID" Type="nvarchar" MaxLength="255" />
+          <Property Name="IP" Type="nvarchar" MaxLength="255" />
+          <Property Name="Weight" Type="int" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="CancelledAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Productions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ChannelID" Type="int" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Slug" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Author" Type="nvarchar" MaxLength="50" />
+          <Property Name="Price" Type="decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="ReleasedOn" Type="datetime" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subscriptions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="HashedPassword" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="Token" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsBanned" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VideoLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Slug" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="EpisodeNumber" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FileSize" Type="int" Nullable="false" />
+          <Property Name="Usage" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LogDate" Type="datetime" Nullable="false" />
+          <Property Name="OrderItemID" Type="int" />
+          <Property Name="BandwidthRate" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Customers_Productions_Customer">
+          <End Role="Customers" Type="VidPubModel.Store.Customers" Multiplicity="1" />
+          <End Role="Customers_Productions" Type="VidPubModel.Store.Customers_Productions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customers_Productions">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customers_Productions_Productions">
+          <End Role="Productions" Type="VidPubModel.Store.Productions" Multiplicity="1" />
+          <End Role="Customers_Productions" Type="VidPubModel.Store.Customers_Productions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Customers_Productions">
+              <PropertyRef Name="ProductionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Episodes_Productions">
+          <End Role="Productions" Type="VidPubModel.Store.Productions" Multiplicity="1" />
+          <End Role="Episodes" Type="VidPubModel.Store.Episodes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Episodes">
+              <PropertyRef Name="ProductionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItems_Orders">
+          <End Role="Orders" Type="VidPubModel.Store.Orders" Multiplicity="1" />
+          <End Role="OrderItems" Type="VidPubModel.Store.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productions_Channels">
+          <End Role="Channels" Type="VidPubModel.Store.Channels" Multiplicity="0..1" />
+          <End Role="Productions" Type="VidPubModel.Store.Productions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channels">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Productions">
+              <PropertyRef Name="ChannelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subscription_Customer">
+          <End Role="Customers" Type="VidPubModel.Store.Customers" Multiplicity="1" />
+          <End Role="Subscriptions" Type="VidPubModel.Store.Subscriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Subscriptions">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VidPubModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="VidPubEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Channels" EntityType="VidPubModel.Channel" />
+          <EntitySet Name="Customers" EntityType="VidPubModel.Customer" />
+          <EntitySet Name="Episodes" EntityType="VidPubModel.Episode" />
+          <EntitySet Name="OrderItems" EntityType="VidPubModel.OrderItem" />
+          <EntitySet Name="Orders" EntityType="VidPubModel.Order" />
+          <EntitySet Name="Productions" EntityType="VidPubModel.Production" />
+          <EntitySet Name="Subscriptions" EntityType="VidPubModel.Subscription" />
+          <EntitySet Name="Users" EntityType="VidPubModel.User" />
+          <EntitySet Name="VideoLogs" EntityType="VidPubModel.VideoLog" />
+          <AssociationSet Name="FK_Productions_Channels" Association="VidPubModel.FK_Productions_Channels">
+            <End Role="Channels" EntitySet="Channels" />
+            <End Role="Productions" EntitySet="Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subscription_Customer" Association="VidPubModel.FK_Subscription_Customer">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Episodes_Productions" Association="VidPubModel.FK_Episodes_Productions">
+            <End Role="Productions" EntitySet="Productions" />
+            <End Role="Episodes" EntitySet="Episodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItems_Orders" Association="VidPubModel.FK_OrderItems_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="Customers_Productions" Association="VidPubModel.Customers_Productions">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Productions" EntitySet="Productions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Slug" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Productions" Relationship="VidPubModel.FK_Productions_Channels" FromRole="Channels" ToRole="Productions" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Last" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="HighriseID" Type="Int32" />
+          <Property Name="StreamUntil" Type="DateTime" />
+          <Property Name="DownloadUntil" Type="DateTime" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Subscriptions" Relationship="VidPubModel.FK_Subscription_Customer" FromRole="Customers" ToRole="Subscriptions" />
+          <NavigationProperty Name="Productions" Relationship="VidPubModel.Customers_Productions" FromRole="Customers" ToRole="Productions" />
+        </EntityType>
+        <EntityType Name="Episode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductionID" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ReleasedOn" Type="DateTime" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" />
+          <Property Name="DurationMinutes" Type="Int32" Nullable="false" />
+          <Property Name="HDFileSize" Type="Int32" Nullable="false" />
+          <Property Name="MobileFileSize" Type="Int32" Nullable="false" />
+          <Property Name="TabletFileSize" Type="Int32" Nullable="false" />
+          <Property Name="StreamFileSize" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Production" Relationship="VidPubModel.FK_Episodes_Productions" FromRole="Episodes" ToRole="Productions" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="RequiresShipping" Type="Boolean" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Grams" Type="Int32" />
+          <Property Name="SKU" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="FulfillmentStatus" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Vendor" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="FulfillmentService" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="OrderType" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Channel" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Order" Relationship="VidPubModel.FK_OrderItems_Orders" FromRole="OrderItems" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNumber" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ShopifyID" Type="Int32" Nullable="false" />
+          <Property Name="ShopifyName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Discount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="CancelReason" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="Subtotal" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="Token" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="TaxIncluded" Type="Boolean" />
+          <Property Name="LandingPage" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ShopifyNumber" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ReferringSite" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Note" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Gateway" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="FulfillmentStatus" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="FinancialStatus" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Currency" Type="String" MaxLength="4" Unicode="true" FixedLength="false" />
+          <Property Name="ClosedAt" Type="DateTime" />
+          <Property Name="AcceptsMarketing" Type="Boolean" />
+          <Property Name="Tax" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ReferralID" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="IP" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Weight" Type="Int32" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="CancelledAt" Type="DateTime" />
+          <NavigationProperty Name="OrderItems" Relationship="VidPubModel.FK_OrderItems_Orders" FromRole="Orders" ToRole="OrderItems" />
+        </EntityType>
+        <EntityType Name="Production">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChannelID" Type="Int32" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Slug" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Status" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Author" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="ReleasedOn" Type="DateTime" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Channel" Relationship="VidPubModel.FK_Productions_Channels" FromRole="Productions" ToRole="Channels" />
+          <NavigationProperty Name="Episodes" Relationship="VidPubModel.FK_Episodes_Productions" FromRole="Productions" ToRole="Episodes" />
+          <NavigationProperty Name="Customers" Relationship="VidPubModel.Customers_Productions" FromRole="Productions" ToRole="Customers" />
+        </EntityType>
+        <EntityType Name="Subscription">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="VidPubModel.FK_Subscription_Customer" FromRole="Subscriptions" ToRole="Customers" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="HashedPassword" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="LastLogin" Type="DateTime" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="Token" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="IsBanned" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VideoLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Slug" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="EpisodeNumber" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FileSize" Type="Int32" Nullable="false" />
+          <Property Name="Usage" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="LogDate" Type="DateTime" Nullable="false" />
+          <Property Name="OrderItemID" Type="Int32" />
+          <Property Name="BandwidthRate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+        <Association Name="FK_Productions_Channels">
+          <End Role="Channels" Type="VidPubModel.Channel" Multiplicity="0..1" />
+          <End Role="Productions" Type="VidPubModel.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channels">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Productions">
+              <PropertyRef Name="ChannelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subscription_Customer">
+          <End Role="Customers" Type="VidPubModel.Customer" Multiplicity="1" />
+          <End Role="Subscriptions" Type="VidPubModel.Subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Subscriptions">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Episodes_Productions">
+          <End Role="Productions" Type="VidPubModel.Production" Multiplicity="1" />
+          <End Role="Episodes" Type="VidPubModel.Episode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Episodes">
+              <PropertyRef Name="ProductionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItems_Orders">
+          <End Role="Orders" Type="VidPubModel.Order" Multiplicity="1" />
+          <End Role="OrderItems" Type="VidPubModel.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customers_Productions">
+          <End Role="Customers" Type="VidPubModel.Customer" Multiplicity="*" />
+          <End Role="Productions" Type="VidPubModel.Production" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VidPubModelStoreContainer" CdmEntityContainer="VidPubEntities">
+          <EntitySetMapping Name="Channels"><EntityTypeMapping TypeName="VidPubModel.Channel"><MappingFragment StoreEntitySet="Channels">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Slug" ColumnName="Slug" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Customers"><EntityTypeMapping TypeName="VidPubModel.Customer"><MappingFragment StoreEntitySet="Customers">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="First" ColumnName="First" />
+            <ScalarProperty Name="Last" ColumnName="Last" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+            <ScalarProperty Name="HighriseID" ColumnName="HighriseID" />
+            <ScalarProperty Name="StreamUntil" ColumnName="StreamUntil" />
+            <ScalarProperty Name="DownloadUntil" ColumnName="DownloadUntil" />
+            <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+            <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Episodes"><EntityTypeMapping TypeName="VidPubModel.Episode"><MappingFragment StoreEntitySet="Episodes">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="ProductionID" ColumnName="ProductionID" />
+            <ScalarProperty Name="Number" ColumnName="Number" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="ReleasedOn" ColumnName="ReleasedOn" />
+            <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+            <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+            <ScalarProperty Name="DurationMinutes" ColumnName="DurationMinutes" />
+            <ScalarProperty Name="HDFileSize" ColumnName="HDFileSize" />
+            <ScalarProperty Name="MobileFileSize" ColumnName="MobileFileSize" />
+            <ScalarProperty Name="TabletFileSize" ColumnName="TabletFileSize" />
+            <ScalarProperty Name="StreamFileSize" ColumnName="StreamFileSize" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="OrderItems"><EntityTypeMapping TypeName="VidPubModel.OrderItem"><MappingFragment StoreEntitySet="OrderItems">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Price" ColumnName="Price" />
+            <ScalarProperty Name="Discount" ColumnName="Discount" />
+            <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+            <ScalarProperty Name="RequiresShipping" ColumnName="RequiresShipping" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Grams" ColumnName="Grams" />
+            <ScalarProperty Name="SKU" ColumnName="SKU" />
+            <ScalarProperty Name="FulfillmentStatus" ColumnName="FulfillmentStatus" />
+            <ScalarProperty Name="Vendor" ColumnName="Vendor" />
+            <ScalarProperty Name="FulfillmentService" ColumnName="FulfillmentService" />
+            <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+            <ScalarProperty Name="Channel" ColumnName="Channel" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Orders"><EntityTypeMapping TypeName="VidPubModel.Order"><MappingFragment StoreEntitySet="Orders">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+            <ScalarProperty Name="ShopifyID" ColumnName="ShopifyID" />
+            <ScalarProperty Name="ShopifyName" ColumnName="ShopifyName" />
+            <ScalarProperty Name="Discount" ColumnName="Discount" />
+            <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+            <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+            <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+            <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+            <ScalarProperty Name="Token" ColumnName="Token" />
+            <ScalarProperty Name="Total" ColumnName="Total" />
+            <ScalarProperty Name="TaxIncluded" ColumnName="TaxIncluded" />
+            <ScalarProperty Name="LandingPage" ColumnName="LandingPage" />
+            <ScalarProperty Name="ShopifyNumber" ColumnName="ShopifyNumber" />
+            <ScalarProperty Name="ReferringSite" ColumnName="ReferringSite" />
+            <ScalarProperty Name="Note" ColumnName="Note" />
+            <ScalarProperty Name="Gateway" ColumnName="Gateway" />
+            <ScalarProperty Name="FulfillmentStatus" ColumnName="FulfillmentStatus" />
+            <ScalarProperty Name="FinancialStatus" ColumnName="FinancialStatus" />
+            <ScalarProperty Name="Currency" ColumnName="Currency" />
+            <ScalarProperty Name="ClosedAt" ColumnName="ClosedAt" />
+            <ScalarProperty Name="AcceptsMarketing" ColumnName="AcceptsMarketing" />
+            <ScalarProperty Name="Tax" ColumnName="Tax" />
+            <ScalarProperty Name="ReferralID" ColumnName="ReferralID" />
+            <ScalarProperty Name="IP" ColumnName="IP" />
+            <ScalarProperty Name="Weight" ColumnName="Weight" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+            <ScalarProperty Name="CancelledAt" ColumnName="CancelledAt" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Productions"><EntityTypeMapping TypeName="VidPubModel.Production"><MappingFragment StoreEntitySet="Productions">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Slug" ColumnName="Slug" />
+            <ScalarProperty Name="Status" ColumnName="Status" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Author" ColumnName="Author" />
+            <ScalarProperty Name="Price" ColumnName="Price" />
+            <ScalarProperty Name="ReleasedOn" ColumnName="ReleasedOn" />
+            <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+            <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Subscriptions"><EntityTypeMapping TypeName="VidPubModel.Subscription"><MappingFragment StoreEntitySet="Subscriptions">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+            <ScalarProperty Name="Status" ColumnName="Status" />
+            <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+            <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="VidPubModel.User"><MappingFragment StoreEntitySet="Users">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+            <ScalarProperty Name="HashedPassword" ColumnName="HashedPassword" />
+            <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+            <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+            <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+            <ScalarProperty Name="Token" ColumnName="Token" />
+            <ScalarProperty Name="IsBanned" ColumnName="IsBanned" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="VideoLogs"><EntityTypeMapping TypeName="VidPubModel.VideoLog"><MappingFragment StoreEntitySet="VideoLog">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Email" ColumnName="Email" />
+            <ScalarProperty Name="Slug" ColumnName="Slug" />
+            <ScalarProperty Name="EpisodeNumber" ColumnName="EpisodeNumber" />
+            <ScalarProperty Name="FileName" ColumnName="FileName" />
+            <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+            <ScalarProperty Name="Usage" ColumnName="Usage" />
+            <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+            <ScalarProperty Name="OrderItemID" ColumnName="OrderItemID" />
+            <ScalarProperty Name="BandwidthRate" ColumnName="BandwidthRate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="Customers_Productions" TypeName="VidPubModel.Customers_Productions" StoreEntitySet="Customers_Productions">
+            <EndProperty Name="Customers">
+              <ScalarProperty Name="ID" ColumnName="CustomerID" />
+            </EndProperty>
+            <EndProperty Name="Productions">
+              <ScalarProperty Name="ID" ColumnName="ProductionID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="VidpubData">
+        <EntityTypeShape EntityType="VidPubModel.Channel" Width="1.5" PointX="0.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
+        <EntityTypeShape EntityType="VidPubModel.Customer" Width="1.5" PointX="0.75" PointY="4.125" Height="3.1340950520833326" IsExpanded="true" />
+        <EntityTypeShape EntityType="VidPubModel.Episode" Width="1.5" PointX="5.25" PointY="3.75" Height="3.7109993489583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="VidPubModel.OrderItem" Width="1.5" PointX="10" PointY="3.625" Height="4.0956022135416656" IsExpanded="true" />
+        <EntityTypeShape EntityType="VidPubModel.Order" Width="1.5" PointX="7.75" PointY="2.375" Height="6.5955208333333326" IsExpanded="true" />
+        <EntityTypeShape EntityType="VidPubModel.Production" Width="1.5" PointX="3" PointY="3.75" Height="3.7109993489583326" IsExpanded="true" />
+        <EntityTypeShape EntityType="VidPubModel.Subscription" Width="1.5" PointX="3" PointY="9" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="VidPubModel.User" Width="1.5" PointX="5.75" PointY="9.875" Height="2.5571907552083317" IsExpanded="true" />
+        <EntityTypeShape EntityType="VidPubModel.VideoLog" Width="1.5" PointX="7.75" PointY="9.875" Height="2.9417936197916674" IsExpanded="true" />
+        <AssociationConnector Association="VidPubModel.FK_Productions_Channels" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.6439925130208335" />
+          <ConnectorPoint PointX="3.75" PointY="1.6439925130208335" />
+          <ConnectorPoint PointX="3.75" PointY="3.75" />
+        </AssociationConnector>
+        <AssociationConnector Association="VidPubModel.FK_Subscription_Customer" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.5" PointY="7.2590950520833326" />
+          <ConnectorPoint PointX="1.5" PointY="10.0862939453125" />
+          <ConnectorPoint PointX="3" PointY="10.0862939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="VidPubModel.FK_Episodes_Productions" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="5.6054996744791659" />
+          <ConnectorPoint PointX="5.25" PointY="5.6054996744791659" />
+        </AssociationConnector>
+        <AssociationConnector Association="VidPubModel.FK_OrderItems_Orders" ManuallyRouted="false">
+          <ConnectorPoint PointX="9.25" PointY="5.6728011067708328" />
+          <ConnectorPoint PointX="10" PointY="5.6728011067708328" />
+        </AssociationConnector>
+        <AssociationConnector Association="VidPubModel.Customers_Productions" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="5.6920475260416659" />
+          <ConnectorPoint PointX="3" PointY="5.6920475260416659" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

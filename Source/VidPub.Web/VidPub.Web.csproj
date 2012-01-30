@@ -85,39 +85,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\NinjectMVC3.cs" />
-    <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
-    <Compile Include="Areas\Api\Controllers\EpisodesController.cs" />
-    <Compile Include="Areas\Api\Controllers\ProductionsController.cs" />
-    <Compile Include="Areas\Reporting\Controllers\AnnualController.cs" />
-    <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ApplicationController.cs" />
-    <Compile Include="Controllers\CustomersController.cs" />
-    <Compile Include="Controllers\EpisodesController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProductionsController.cs" />
-    <Compile Include="Controllers\ShopifyController.cs" />
-    <Compile Include="Controllers\VidpubController.cs" />
+    <Compile Include="App\Infrastructure\NinjectMVC3.cs" />
+    <Compile Include="App\Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="App\Areas\Api\Controllers\EpisodesController.cs" />
+    <Compile Include="App\Areas\Api\Controllers\ProductionsController.cs" />
+    <Compile Include="App\Areas\Reporting\Controllers\AnnualController.cs" />
+    <Compile Include="App\Areas\Reporting\ReportingAreaRegistration.cs" />
+    <Compile Include="App\Controllers\AccountController.cs" />
+    <Compile Include="App\Controllers\ApplicationController.cs" />
+    <Compile Include="App\Controllers\CustomersController.cs" />
+    <Compile Include="App\Controllers\HomeController.cs" />
+    <Compile Include="App\Controllers\ShopifyController.cs" />
+    <Compile Include="App\Infrastructure\VidpubController.cs" />
+    <Compile Include="App\Infrastructure\DynamicModelBinder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\CruddyController.cs" />
-    <Compile Include="Infrastructure\CSVResult.cs" />
-    <Compile Include="Infrastructure\ExpandoObjectConverter.cs" />
-    <Compile Include="Infrastructure\FormsAuthTokenStore.cs" />
-    <Compile Include="Infrastructure\Logging\ILogger.cs" />
-    <Compile Include="Infrastructure\Logging\NLogger.cs" />
-    <Compile Include="Model\Channels.cs" />
-    <Compile Include="Model\VideoLog.cs" />
+    <Compile Include="App\Infrastructure\CruddyController.cs" />
+    <Compile Include="App\Infrastructure\CSVResult.cs" />
+    <Compile Include="App\Infrastructure\ExpandoObjectConverter.cs" />
+    <Compile Include="App\Infrastructure\FormsAuthTokenStore.cs" />
+    <Compile Include="App\Infrastructure\Logging\ILogger.cs" />
+    <Compile Include="App\Infrastructure\Logging\NLogger.cs" />
+    <Compile Include="App\Model\Channels.cs" />
+    <Compile Include="App\Model\DigitalRights.cs" />
+    <Compile Include="App\Model\VideoLog.cs" />
     <Content Include="App_Code\Assets.cshtml" />
     <Content Include="App_Code\URL.cshtml" />
     <Content Include="App_Code\Form.cshtml" />
     <Content Include="App_Code\Template.cshtml" />
+    <Content Include="App_Code\Notifier.cshtml" />
     <None Include="App_Data\logs\site.log" />
-    <Content Include="Areas\Api\Views\Web.config" />
-    <Content Include="Areas\Reporting\Views\Web.config" />
-    <Content Include="Areas\Reporting\Views\Annual\Sales.cshtml" />
+    <Content Include="App\Areas\Api\Views\Web.config" />
+    <Content Include="App\Areas\Reporting\Views\Web.config" />
+    <Content Include="App\Areas\Reporting\Views\Annual\Sales.cshtml" />
     <None Include="CodeTemplates\AddController\Controller.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\Create.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\Edit.tt" />
@@ -125,15 +126,15 @@
     <None Include="NLog.config">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="Infrastructure\Massive.cs" />
-    <Compile Include="Infrastructure\RequireAdminAttribute.cs" />
-    <Compile Include="Infrastructure\RouteHelper.cs" />
-    <Compile Include="Model\AccountModel.cs" />
-    <Compile Include="Model\Customers.cs" />
-    <Compile Include="Model\Episodes.cs" />
-    <Compile Include="Model\Orders.cs" />
-    <Compile Include="Model\Productions.cs" />
-    <Compile Include="Model\Users.cs" />
+    <Compile Include="App\Infrastructure\Massive.cs" />
+    <Compile Include="App\Infrastructure\RequireAdminAttribute.cs" />
+    <Compile Include="App\Infrastructure\RouteHelper.cs" />
+    <Compile Include="App\Model\AccountModel.cs" />
+    <Compile Include="App\Model\Customers.cs" />
+    <Compile Include="App\Model\Episodes.cs" />
+    <Compile Include="App\Model\Orders.cs" />
+    <Compile Include="App\Model\Productions.cs" />
+    <Compile Include="App\Model\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App_Data\DBScripts.sql" />
     <Content Include="HTMLPage1.htm" />
@@ -141,7 +142,11 @@
     <Content Include="Public\images\camera.png" />
     <Content Include="Public\images\agenda.png" />
     <Content Include="Public\images\close.png" />
+    <Content Include="Public\images\lead.png" />
+    <Content Include="Public\images\logo.png" />
     <Content Include="Public\javascripts\backbone-min.js" />
+    <Content Include="Public\javascripts\notifier.js" />
+    <Content Include="Public\javascripts\customer-admin.js" />
     <Content Include="Public\javascripts\production-admin.js" />
     <Content Include="Public\javascripts\underscore-min.js" />
     <Content Include="Public\javascripts\vidpub-search.js" />
@@ -153,6 +158,7 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Vidpub\Index.cshtml" />
     <Content Include="Views\Vidpub\Productions.cshtml" />
+    <Content Include="Views\Vidpub\Customers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Public\stylesheets\jquery_ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -238,10 +244,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Api\Models\" />
-    <Folder Include="Areas\Api\Views\Shared\" />
-    <Folder Include="Areas\Reporting\Models\" />
-    <Folder Include="Areas\Reporting\Views\Shared\" />
+    <Folder Include="App\Areas\Api\Views\Shared\" />
+    <Folder Include="App\Areas\Reporting\Models\" />
+    <Folder Include="App\Areas\Reporting\Views\Shared\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

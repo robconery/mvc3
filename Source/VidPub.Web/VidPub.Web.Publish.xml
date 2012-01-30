@@ -1,126 +1,119 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="ftp://ftp.wekeroad.com/vidpub" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="Vidpub" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Production" publishMethod="FTP" replaceMatchingFiles="True" userName="rob" savePWD="True" userPWD="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyGGEr/ez/U2UQJkoH7P6cwAAAAACAAAAAAAQZgAAAAEAACAAAAAQ/bde/LwbDaOqnoKCNVMjwj2hQyeT8Af0o0W7HPf5WQAAAAAOgAAAAAIAACAAAADpnjqlVhAceLq7rikZ49uFcWBpX+dXI4wzlD+FVCOfOSAAAABAkledfOkHVyFW5nP4mXyBzdfj4VSyWkawX0I56Ni49UAAAAD/TAbSAv1pwXgxl8sCyoqwqOUIuz6vbwLGvHeXqGEA829cfRqrlKVqSWHHn/ezDd0FaasapWEx8G4WSwrj9WA/" SelectedForPublish="True">
-    <file relUrl="Public/stylesheets/print.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.tabs.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Views/Account/Register.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.datepicker.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-bg_glass_55_fbf9ee_1x400.png" publishTime="08/09/2011 09:45:44" />
+  <publishProfile publishUrl="ftp://ec2-184-72-8-10.us-west-1.compute.amazonaws.com" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="False" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FTP" replaceMatchingFiles="True" userName="rob" savePWD="True" userPWD="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAcni7zgKbjEWEfIyv1c6DDwAAAAACAAAAAAAQZgAAAAEAACAAAADtbKplMu/dtyU4Koz78pUmMUSTaGvekc9MfFqscaCubwAAAAAOgAAAAAIAACAAAADsNpSZwukIqXKa2jAz2nnVgZB9QbsmCJP/So5xVwvkJCAAAABxXKvFOAkiA2+H/OwrkvVz740VutEMTpIs9VvvvBtA7EAAAAC97bQCguGfwrIrGRMSV+c5jpkcFtF/ZU6yQl1NWjg2U1Hr6/SiOY90f021XA0hXvfVtG8k4Rem2zJWbYS9ZLWz" SelectedForPublish="True">
+    <file relUrl="Views/Account/Register.cshtml" publishTime="09/29/2011 10:03:22" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.base.css" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Views/Account/LogOn.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Views/Productions/Edit.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Areas/Api/Views/Web.config" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="App/Areas/Reporting/Views/Annual/Sales.cshtml" publishTime="09/21/2011 11:06:26" />
     <file relUrl="Public/stylesheets/site.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.progressbar.css" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="App_Data/ShopifyPing.js" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/link-icons/icons/external.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="HTMLPage1.htm" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Web.config" publishTime="09/19/2011 16:35:02" />
-    <file relUrl="Public/images/jquery_ui/ui-bg_flat_0_aaaaaa_40x100.png" publishTime="08/09/2011 09:45:44" />
+    <file relUrl="bin/VidPub.Web.pdb" publishTime="10/26/2011 15:06:57" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_flat_0_aaaaaa_40x100.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/forms.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/plugins/link-icons/icons/doc.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-bg_glass_95_fef1ec_1x400.png" publishTime="08/09/2011 09:45:44" />
+    <file relUrl="Public/images/close.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_glass_75_dadada_1x400.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/Ninject.xml" publishTime="08/09/2011 09:45:45" />
+    <file relUrl="bin/Ninject.xml" publishTime="09/12/2011 11:07:01" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.core.css" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.all.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/Ninject.Web.Mvc.dll" publishTime="08/09/2011 09:45:45" />
+    <file relUrl="bin/Ninject.Web.Mvc.dll" publishTime="09/12/2011 11:07:01" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.accordion.css" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Global.asax" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-icons_888888_256x240.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-icons_222222_256x240.png" publishTime="08/09/2011 09:45:44" />
-    <file relUrl="Views/Vidpub/Index.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/agenda.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Views/Vidpub/Index.cshtml" publishTime="09/29/2011 09:56:28" />
+    <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.tabs.css" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/link-icons/icons/email.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-icons_2e83ff_256x240.png" publishTime="08/09/2011 09:45:44" />
     <file relUrl="Public/javascripts/jquery.validate.min.js" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/plugins/buttons/screen.css" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/images/camera.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/plugins/buttons/icons/key.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-icons_454545_256x240.png" publishTime="08/09/2011 09:45:44" />
-    <file relUrl="Public/stylesheets/plugins/buttons/icons/tick.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="bin/VidPub.Web.dll" publishTime="10/26/2011 15:06:57" />
+    <file relUrl="App_Code/Template.cshtml" publishTime="09/12/2011 11:06:59" />
+    <file relUrl="bin/Ninject.Web.Mvc.xml" publishTime="09/12/2011 11:07:01" />
     <file relUrl="Public/javascripts/underscore-min.js" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.dialog.css" publishTime="09/12/2011 11:07:00" />
     <file relUrl="App_Code/URL.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/link-icons/screen.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/NLog.Extended.dll" publishTime="08/09/2011 09:45:44" />
+    <file relUrl="bin/NLog.Extended.dll" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.resizable.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/Ninject.dll" publishTime="08/09/2011 09:45:45" />
+    <file relUrl="bin/Ninject.dll" publishTime="09/12/2011 11:07:01" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.autocomplete.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Views/Shared/_LogOnPartial.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="App_Data/ShopifyPing.js" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="App/Areas/Api/Views/Web.config" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-icons_cd0a0a_256x240.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/plugins/fancy-type/screen.css" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/javascripts/notifier.js" publishTime="10/24/2011 15:01:12" />
     <file relUrl="App_Code/Assets.cshtml" publishTime="09/12/2011 11:06:59" />
     <file relUrl="Views/Shared/_PublicLayout.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-icons_222222_256x240.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/images/lead.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/images/logo.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Views/Vidpub/Productions.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/VidPub.Web.dll" publishTime="09/19/2011 16:36:19" />
-    <file relUrl="bin/NLog.dll" publishTime="08/09/2011 09:45:44" />
-    <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_highlight-soft_75_cccccc_1x100.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.datepicker.css" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="bin/NLog.dll" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/plugins/link-icons/icons/doc.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Views/Productions/Index.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/link-icons/icons/lock.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.slider.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Views/Shared/Error.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/Ninject.Web.Mvc.pdb" publishTime="08/09/2011 09:45:45" />
+    <file relUrl="Public/stylesheets/plugins/link-icons/icons/im.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="bin/Ninject.Web.Mvc.pdb" publishTime="09/12/2011 11:07:01" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.theme.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="packages.config" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/plugins/link-icons/icons/feed.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="packages.config" publishTime="10/24/2011 15:37:11" />
+    <file relUrl="Views/Shared/_LogOnPartial.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_glass_65_ffffff_1x400.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_flat_75_ffffff_40x100.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/rtl/screen.css" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/buttons/readme.txt" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/plugins/rtl/readme.txt" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="App_Code/Form.cshtml" publishTime="09/12/2011 11:06:59" />
+    <file relUrl="Public/stylesheets/plugins/link-icons/icons/feed.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="App_Code/Form.cshtml" publishTime="09/29/2011 09:56:28" />
     <file relUrl="Views/Home/About.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Views/Account/ChangePasswordSuccess.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/screen.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/javascripts/production-admin.js" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/Elmah.Contrib.Mvc.dll" publishTime="08/09/2011 09:45:44" />
-    <file relUrl="Public/images/jquery_ui/ui-bg_highlight-soft_75_cccccc_1x100.png" publishTime="08/09/2011 09:45:44" />
+    <file relUrl="Views/Shared/Error.cshtml" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="bin/Elmah.Contrib.Mvc.dll" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/plugins/rtl/readme.txt" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/javascripts/jquery.validate.unobtrusive.min.js" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Views/Shared/_AdminLayout.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/NLog.xml" publishTime="08/09/2011 09:45:45" />
+    <file relUrl="bin/NLog.xml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/ie.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/Elmah.dll" publishTime="08/09/2011 09:45:45" />
-    <file relUrl="Public/javascripts/vidpub-search.js" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/screen.css" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/javascripts/vidpub-search.js" publishTime="09/27/2011 15:28:58" />
     <file relUrl="Views/Account/ChangePassword.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.button.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="App_Code/Template.cshtml" publishTime="09/12/2011 11:06:59" />
+    <file relUrl="Public/stylesheets/print.css" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-icons_454545_256x240.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/javascripts/modernizr-1.7.min.js" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/WebActivator.dll" publishTime="08/09/2011 09:45:45" />
+    <file relUrl="bin/Elmah.dll" publishTime="09/12/2011 11:07:01" />
     <file relUrl="Views/Shared/_Layout.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Views/_ViewStart.cshtml" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="App/Areas/Reporting/Views/Web.config" publishTime="09/21/2011 11:06:26" />
     <file relUrl="Views/Web.config" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Views/Productions/Create.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-icons_cd0a0a_256x240.png" publishTime="08/09/2011 09:45:44" />
     <file relUrl="Public/stylesheets/plugins/link-icons/icons/visited.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-icons_888888_256x240.png" publishTime="08/09/2011 09:45:44" />
-    <file relUrl="bin/NLog.Extended.xml" publishTime="08/09/2011 09:45:44" />
-    <file relUrl="Public/images/jquery_ui/ui-bg_glass_65_ffffff_1x400.png" publishTime="08/09/2011 09:45:44" />
+    <file relUrl="bin/NLog.Extended.xml" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="App_Code/Notifier.cshtml" publishTime="09/29/2011 10:19:17" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_glass_75_e6e6e6_1x400.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/javascripts/jquery.validate.unobtrusive.min.js" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-bg_glass_75_e6e6e6_1x400.png" publishTime="08/09/2011 09:45:44" />
-    <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.selectable.css" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/plugins/fancy-type/screen.css" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/images/agenda.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.progressbar.css" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="bin/WebActivator.dll" publishTime="09/12/2011 11:07:01" />
+    <file relUrl="Views/_ViewStart.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/link-icons/icons/pdf.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/plugins/link-icons/icons/im.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Views/Vidpub/Productions.cshtml" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_glass_55_fbf9ee_1x400.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/link-icons/icons/xls.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/VidPub.Web.pdb" publishTime="09/19/2011 16:36:19" />
     <file relUrl="Public/stylesheets/plugins/link-icons/readme.txt" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/Ninject.pdb" publishTime="08/09/2011 09:45:45" />
-    <file relUrl="Public/images/close.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/images/jquery_ui/ui-bg_glass_75_dadada_1x400.png" publishTime="08/09/2011 09:45:44" />
-    <file relUrl="Public/images/jquery_ui/ui-bg_flat_75_ffffff_40x100.png" publishTime="08/09/2011 09:45:44" />
+    <file relUrl="Public/javascripts/production-admin.js" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/jquery_ui/jquery.ui.selectable.css" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="bin/Ninject.pdb" publishTime="09/12/2011 11:07:01" />
+    <file relUrl="Public/stylesheets/plugins/buttons/icons/key.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/jquery_ui/images/ui-icons_2e83ff_256x240.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/stylesheets/plugins/fancy-type/readme.txt" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/plugins/buttons/screen.css" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/plugins/buttons/icons/tick.png" publishTime="09/12/2011 11:07:00" />
     <file relUrl="Public/javascripts/backbone-min.js" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_flat_75_ffffff_40x100.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="App_Data/DBScripts.sql" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_highlight-soft_75_cccccc_1x100.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/stylesheets/jquery_ui/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="09/12/2011 11:07:00" />
+    <file relUrl="Public/javascripts/customer-admin.js" publishTime="09/29/2011 09:56:28" />
+    <file relUrl="App_Data/DBScripts.sql" publishTime="09/27/2011 19:59:26" />
     <file relUrl="Public/stylesheets/plugins/buttons/icons/cross.png" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="Views/Home/Index.cshtml" publishTime="09/12/2011 11:07:00" />
-    <file relUrl="bin/Ninject.Web.Mvc.xml" publishTime="08/09/2011 09:45:45" />
+    <file relUrl="Views/Home/Index.cshtml" publishTime="10/26/2011 15:06:51" />
+    <file relUrl="Views/Vidpub/Customers.cshtml" publishTime="09/29/2011 10:18:38" />
+    <file relUrl="Web.config" publishTime="10/26/2011 14:03:14" />
   </publishProfile>
 </publishData>

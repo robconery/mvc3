@@ -16,6 +16,7 @@ namespace VidPub.Tests {
             this.Describes("User Authentication");
             _membership = new Users();
         }
+        
         [SetUp]
         public void Init() {
             _membership.Delete();
